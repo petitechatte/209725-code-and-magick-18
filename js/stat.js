@@ -5,8 +5,24 @@ var CLOUD_Y = 10;
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
 var CLOUD_DENT = 20;
+var SHADOW_X = CLOUD_X + 10;
+var SHADOW_Y = CLOUD_Y + 10;
 
 window.renderStatistics = function (ctx, names, times) {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+  ctx.beginPath();
+  ctx.moveTo(SHADOW_X, SHADOW_Y);
+  ctx.lineTo(SHADOW_X + CLOUD_WIDTH / 2, SHADOW_Y + CLOUD_DENT);
+  ctx.lineTo(SHADOW_X + CLOUD_WIDTH, SHADOW_Y);
+  ctx.lineTo(SHADOW_X + CLOUD_WIDTH - CLOUD_DENT, SHADOW_Y + CLOUD_HEIGHT / 2);
+  ctx.lineTo(SHADOW_X + CLOUD_WIDTH, SHADOW_Y + CLOUD_HEIGHT);
+  ctx.lineTo(SHADOW_X + CLOUD_WIDTH / 2, SHADOW_Y + CLOUD_HEIGHT - CLOUD_DENT);
+  ctx.lineTo(SHADOW_X, SHADOW_Y + CLOUD_HEIGHT);
+  ctx.lineTo(SHADOW_X + CLOUD_DENT, SHADOW_Y + CLOUD_HEIGHT / 2);
+  ctx.lineTo(SHADOW_X, SHADOW_Y);
+  ctx.closePath();
+  ctx.fill();
+
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
   ctx.moveTo(CLOUD_X, CLOUD_Y);
