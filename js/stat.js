@@ -2,15 +2,15 @@
 
 var CLOUD_X = 100;
 var CLOUD_Y = 10;
-var CLOUD_WIDTH = 420;
-var CLOUD_HEIGHT = 270;
+var CLOUD_WIDTH = 430; // Размеры увеличены по сравнению с ТЗ из-за вогнутой формы облака
+var CLOUD_HEIGHT = 280; // Размеры увеличены по сравнению с ТЗ из-за вогнутой формы облака
 var CLOUD_DENT = 20;
 var CLOUD_COLOR = '#ffffff';
 var SHADOW_X = CLOUD_X + 10;
 var SHADOW_Y = CLOUD_Y + 10;
 var SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
 var GRAPH_LEFT_MARGIN = 150;
-var GRAPH_TOP_MARGIN = 85;
+var GRAPH_TOP_MARGIN = 95;
 var GRAPH_HEIGHT = 150;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
