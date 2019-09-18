@@ -75,7 +75,7 @@ var renderGraph = function (ctx, names, times) {
     ctx.fillStyle = TEXT_COLOR;
     ctx.textBaseline = 'alphabetic';
     ctx.fillText(Math.round(times[i]), barLeftMargin, barTopMargin - TEXT_MARGIN);
-    //Вывод подписей к столбцам диаграммы (имен игроков)
+    // Вывод подписей к столбцам диаграммы (имен игроков)
     ctx.textBaseline = 'hanging';
     ctx.fillText(names[i], barLeftMargin, GRAPH_TOP_MARGIN + GRAPH_HEIGHT + TEXT_MARGIN);
   }
