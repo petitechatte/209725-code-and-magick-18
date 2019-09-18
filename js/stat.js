@@ -53,17 +53,19 @@ var getMaxValue = function (array) {
 
 var renderGraph = function (ctx, names, times) {
   var maxTime = getMaxValue(times);
-  var saturation = 100;
-  var barHeight = GRAPH_HEIGHT;
-  var barTopMargin = GRAPH_TOP_MARGIN;
-  var barLeftMargin = GRAPH_LEFT_MARGIN;
+  var saturation;
+  var newColor;
+  var barHeight;
+  var barTopMargin;
+  var barLeftMargin;
 
   for (var i = 0; i < times.length; i++) {
     // Настройка цвета столбцов диаграммы
-    var newColor = PLAYER_BAR_COLOR;
-    if (names[i] !== 'Вы') {
-      saturation = Math.floor((Math.random() * 100));
-      newColor = 'hsl(240, ' + saturation + '%, 50%)';
+    if (names[i] === 'Вы') {
+      newColor = PLAYER_BAR_COLOR;
+    } else {
+      saturation = Math.floor((Math.random() * 100 + 1));
+      newColor = 'hsl(240, ' + String(saturation) + '%, 50%)';
     }
     // Настройка размеров и положения столбцов диаграммы
     barLeftMargin = GRAPH_LEFT_MARGIN + (BAR_WIDTH + BAR_GAP) * i;
@@ -75,7 +77,7 @@ var renderGraph = function (ctx, names, times) {
     // Вывод результатов в миллисекундах
     ctx.fillStyle = TEXT_COLOR;
     ctx.textBaseline = 'alphabetic';
-    ctx.fillText(Math.round(times[i]), barLeftMargin, barTopMargin - TEXT_MARGIN);
+    ctx.fillText(String(Math.round(times[i])), barLeftMargin, barTopMargin - TEXT_MARGIN);
     // Вывод подписей к столбцам диаграммы (имен игроков)
     ctx.textBaseline = 'hanging';
     ctx.fillText(names[i], barLeftMargin, GRAPH_TOP_MARGIN + GRAPH_HEIGHT + TEXT_MARGIN);
