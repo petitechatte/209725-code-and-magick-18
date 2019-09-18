@@ -50,7 +50,7 @@
     return maxValue;
   };
 
-  / Построение диаграммы результатов игры
+  // Построение диаграммы результатов игры
 
   var renderGraph = function (ctx, names, times) {
     var maxTime = getMaxValue(times);
@@ -65,7 +65,7 @@
       if (names[i] === 'Вы') {
         newColor = PLAYER_BAR_COLOR;
       } else {
-        saturation = Math.floor((Math.random() * 100 + 1));
+        saturation = Math.floor(Math.random() * 100 + 1);
         newColor = 'hsl(240, ' + String(saturation) + '%, 50%)';
       }
       // Настройка размеров и положения столбцов диаграммы
