@@ -10,11 +10,13 @@ var SHADOW_X = CLOUD_X + 10;
 var SHADOW_Y = CLOUD_Y + 10;
 var SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
 var GRAPH_LEFT_MARGIN = 150;
-var GRAPH_TOP_MARGIN = 90;
+var GRAPH_TOP_MARGIN = 85;
 var GRAPH_HEIGHT = 150;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
 var PLAYER_BAR_COLOR = 'rgba(255, 0, 0, 1)';
+var TEXT_COLOR = '#000000';
+var TEXT_MARGIN = 5;
 
 // Отрисовка облака
 
@@ -56,25 +58,37 @@ var renderGraph = function (ctx, names, times) {
   var barLeftMargin = GRAPH_LEFT_MARGIN;
 
   for (var i = 0; i < times.length; i++) {
+    // Настройка цвета столбцов диаграммы
     var newColor = PLAYER_BAR_COLOR;
-    if (i > 0) {
+    if (names[i] !== 'Вы') {
       saturation = Math.floor((Math.random() * 100));
       newColor = 'hsl(240, ' + saturation + '%, 50%)';
     }
+    // Настройка размеров и положения столбцов диаграммы
     barLeftMargin = GRAPH_LEFT_MARGIN + (BAR_WIDTH + BAR_GAP) * i;
     barHeight = times[i] / maxTime * GRAPH_HEIGHT;
     barTopMargin = GRAPH_TOP_MARGIN + (GRAPH_HEIGHT - barHeight);
+    // Отрисовка столбцов диаграммы
     ctx.fillStyle = newColor;
     ctx.fillRect(barLeftMargin, barTopMargin, BAR_WIDTH, barHeight);
+    // Вывод результатов в миллисекундах
+    ctx.fillStyle = TEXT_COLOR;
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(Math.round(times[i]), barLeftMargin, barTopMargin - TEXT_MARGIN);
+    //Вывод подписей к столбцам диаграммы (имен игроков)
+    ctx.textBaseline = 'hanging';
+    ctx.fillText(names[i], barLeftMargin, GRAPH_TOP_MARGIN + GRAPH_HEIGHT + TEXT_MARGIN);
   }
 };
+
+// Отрисовка окна статистики
 
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, SHADOW_X, SHADOW_Y, SHADOW_COLOR);
   renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
-  ctx.fillStyle = '#000000';
+  ctx.fillStyle = TEXT_COLOR;
   ctx.font = '16px PT Mono';
   ctx.fillText('Ура, вы победили!', GRAPH_LEFT_MARGIN, 50);
-  ctx.fillText('Список результатов:', GRAPH_LEFT_MARGIN, 70);
+  ctx.fillText('Список результатов:', GRAPH_LEFT_MARGIN, 65);
   renderGraph(ctx, names, times);
 };
