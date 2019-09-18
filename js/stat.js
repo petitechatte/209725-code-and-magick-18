@@ -16,6 +16,7 @@ var BAR_WIDTH = 40;
 var BAR_GAP = 50;
 var PLAYER_BAR_COLOR = 'rgba(255, 0, 0, 1)';
 var TEXT_COLOR = '#000000';
+var TEXT_FONT = '16px PT Mono';
 var TEXT_MARGIN = 5;
 
 // Отрисовка облака
@@ -87,7 +88,7 @@ window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, SHADOW_X, SHADOW_Y, SHADOW_COLOR);
   renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
   ctx.fillStyle = TEXT_COLOR;
-  ctx.font = '16px PT Mono';
+  ctx.font = TEXT_FONT;
   ctx.fillText('Ура, вы победили!', GRAPH_LEFT_MARGIN, 50);
   ctx.fillText('Список результатов:', GRAPH_LEFT_MARGIN, 65);
   renderGraph(ctx, names, times);
