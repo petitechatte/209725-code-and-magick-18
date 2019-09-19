@@ -16,6 +16,8 @@
   var BAR_WIDTH = 40;
   var BAR_GAP = 50;
   var PLAYER_BAR_COLOR = 'rgba(255, 0, 0, 1)';
+  var BAR_HUE = 240;
+  var BAR_LIGHTNESS = 50;
   var TEXT_COLOR = '#000000';
   var TEXT_FONT = '16px PT Mono';
   var TEXT_MARGIN = 5;
@@ -40,12 +42,27 @@
 
   // Отрисовка текста
 
-  var renderText = function (baseline, text, x, y) {
+  var renderText = function (ctx, baseline, text, x, y) {
     ctx.font = TEXT_FONT;
     ctx.fillStyle = TEXT_COLOR;
     ctx.textBaseline = baseline;
     ctx.fillText(text, x, y);
-  }
+  };
+
+  // Настройка цвета столбцов диаграммы
+
+  var setBarColor = function (playerName, playerColor, competitorHue) {
+    var newColor;
+    var saturation;
+
+    if (playerName === 'Вы') {
+      newColor = playerColor;
+    } else {
+      saturation = Math.floor(Math.random() * 100 + 1);
+      newColor = 'hsl(' + String(competitorHue) + ', ' + String(saturation) + '%, ' + String(BAR_LIGHTNESS) + '%)';
+    }
+    return newColor;
+  };
 
   // Поиск наибольшего значения массива
 
@@ -63,30 +80,21 @@
 
   var renderGraph = function (ctx, names, times) {
     var maxTime = getMaxValue(times);
-    var saturation;
-    var newColor;
     var barHeight;
     var barTopMargin;
     var barLeftMargin;
 
     for (var i = 0; i < times.length; i++) {
-      // Настройка цвета столбцов диаграммы
-      if (names[i] === 'Вы') {
-        newColor = PLAYER_BAR_COLOR;
-      } else {
-        saturation = Math.floor(Math.random() * 100 + 1);
-        newColor = 'hsl(240, ' + String(saturation) + '%, 50%)';
-      }
       // Настройка размеров и положения столбцов диаграммы
       barLeftMargin = GRAPH_LEFT_MARGIN + (BAR_WIDTH + BAR_GAP) * i;
       barHeight = times[i] / maxTime * GRAPH_HEIGHT;
       barTopMargin = GRAPH_TOP_MARGIN + (GRAPH_HEIGHT - barHeight);
       // Отрисовка столбцов диаграммы
-      ctx.fillStyle = newColor;
+      ctx.fillStyle = setBarColor(names[i], PLAYER_BAR_COLOR, BAR_HUE);
       ctx.fillRect(barLeftMargin, barTopMargin, BAR_WIDTH, barHeight);
       // Вывод подписей к столбцам диаграммы (результатов в миллисекундах и имен игроков)
-      renderText('alphabetic', String(Math.round(times[i])), barLeftMargin, barTopMargin - TEXT_MARGIN);
-      renderText('hanging', names[i], barLeftMargin, GRAPH_TOP_MARGIN + GRAPH_HEIGHT + TEXT_MARGIN);
+      renderText(ctx, 'alphabetic', String(Math.round(times[i])), barLeftMargin, barTopMargin - TEXT_MARGIN);
+      renderText(ctx, 'hanging', names[i], barLeftMargin, GRAPH_TOP_MARGIN + GRAPH_HEIGHT + TEXT_MARGIN);
     }
   };
 
@@ -95,8 +103,8 @@
   window.renderStatistics = function (ctx, names, times) {
     renderCloud(ctx, SHADOW_X, SHADOW_Y, SHADOW_COLOR);
     renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
-    renderText('alphabetic', 'Ура, вы победили!', GRAPH_LEFT_MARGIN, 50);
-    renderText('alphabetic', 'Список результатов:', GRAPH_LEFT_MARGIN, 65);
+    renderText(ctx, 'alphabetic', 'Ура, вы победили!', GRAPH_LEFT_MARGIN, 50);
+    renderText(ctx, 'alphabetic', 'Список результатов:', GRAPH_LEFT_MARGIN, 65);
     renderGraph(ctx, names, times);
   };
 })();
