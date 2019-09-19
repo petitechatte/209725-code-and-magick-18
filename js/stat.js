@@ -58,7 +58,7 @@
     if (playerName === 'Вы') {
       newColor = playerColor;
     } else {
-      saturation = Math.floor(Math.random() * 100 + 1);
+      saturation = Math.floor(Math.random() * 101);
       newColor = 'hsl(' + String(competitorHue) + ', ' + String(saturation) + '%, ' + String(BAR_LIGHTNESS) + '%)';
     }
     return newColor;
