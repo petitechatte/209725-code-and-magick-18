@@ -11,8 +11,8 @@
   var SHADOW_Y = CLOUD_Y + 10;
   var SHADOW_COLOR = 'rgba(0, 0, 0, 0.7)';
   var GRAPH_LEFT_MARGIN = 150;
-  var GRAPH_TOP_MARGIN = 95;
-  var GRAPH_HEIGHT = 150;
+  var GRAPH_TOP_MARGIN = 100;
+  var GRAPH_HEIGHT = 140; // Размеры уменьшены по сравнению с ТЗ из-за вогнутой формы облака
   var BAR_WIDTH = 40;
   var BAR_GAP = 50;
   var PLAYER_BAR_COLOR = 'rgba(255, 0, 0, 1)';
