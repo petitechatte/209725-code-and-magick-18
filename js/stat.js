@@ -38,6 +38,15 @@
     ctx.fill();
   };
 
+  // Отрисовка текста
+
+  var renderText = function (baseline, text, x, y) {
+    ctx.font = TEXT_FONT;
+    ctx.fillStyle = TEXT_COLOR;
+    ctx.textBaseline = baseline;
+    ctx.fillText(text, x, y);
+  }
+
   // Поиск наибольшего значения массива
 
   var getMaxValue = function (array) {
@@ -75,13 +84,9 @@
       // Отрисовка столбцов диаграммы
       ctx.fillStyle = newColor;
       ctx.fillRect(barLeftMargin, barTopMargin, BAR_WIDTH, barHeight);
-      // Вывод результатов в миллисекундах
-      ctx.fillStyle = TEXT_COLOR;
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText(String(Math.round(times[i])), barLeftMargin, barTopMargin - TEXT_MARGIN);
-      // Вывод подписей к столбцам диаграммы (имен игроков)
-      ctx.textBaseline = 'hanging';
-      ctx.fillText(names[i], barLeftMargin, GRAPH_TOP_MARGIN + GRAPH_HEIGHT + TEXT_MARGIN);
+      // Вывод подписей к столбцам диаграммы (результатов в миллисекундах и имен игроков)
+      renderText('alphabetic', String(Math.round(times[i])), barLeftMargin, barTopMargin - TEXT_MARGIN);
+      renderText('hanging', names[i], barLeftMargin, GRAPH_TOP_MARGIN + GRAPH_HEIGHT + TEXT_MARGIN);
     }
   };
 
@@ -90,10 +95,8 @@
   window.renderStatistics = function (ctx, names, times) {
     renderCloud(ctx, SHADOW_X, SHADOW_Y, SHADOW_COLOR);
     renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
-    ctx.fillStyle = TEXT_COLOR;
-    ctx.font = TEXT_FONT;
-    ctx.fillText('Ура, вы победили!', GRAPH_LEFT_MARGIN, 50);
-    ctx.fillText('Список результатов:', GRAPH_LEFT_MARGIN, 65);
+    renderText('alphabetic', 'Ура, вы победили!', GRAPH_LEFT_MARGIN, 50);
+    renderText('alphabetic', 'Список результатов:', GRAPH_LEFT_MARGIN, 65);
     renderGraph(ctx, names, times);
   };
 })();
