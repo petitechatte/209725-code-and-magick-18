@@ -51,15 +51,15 @@
 
   // Настройка цвета столбцов диаграммы
 
-  var setBarColor = function (playerName, playerColor, competitorHue) {
+  var setBarColor = function (playerName) {
     var newColor;
     var saturation;
 
     if (playerName === 'Вы') {
-      newColor = playerColor;
+      newColor = PLAYER_BAR_COLOR;
     } else {
       saturation = Math.floor(Math.random() * 101);
-      newColor = 'hsl(' + String(competitorHue) + ', ' + String(saturation) + '%, ' + String(BAR_LIGHTNESS) + '%)';
+      newColor = 'hsl(' + String(BAR_HUE) + ', ' + String(saturation) + '%, ' + String(BAR_LIGHTNESS) + '%)';
     }
     return newColor;
   };
