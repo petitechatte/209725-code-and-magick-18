@@ -71,10 +71,17 @@
     similarWizardsList.appendChild(fragment);
   };
 
+  var showSimilarWizards = function () {
+    var similarBlock = document.querySelector('.setup-similar');
+    similarBlock.classList.remove('hidden');
+    createSimilarWizards();
+  };
+
   var showSetupWindow = function () {
     var setupWindow = document.querySelector('.setup');
     setupWindow.classList.remove('hidden');
   };
 
   showSetupWindow();
+  showSimilarWizards();
 })();
