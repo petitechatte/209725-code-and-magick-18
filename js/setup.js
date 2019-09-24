@@ -56,6 +56,21 @@
     return wizardElement;
   };
 
+  var createSimilarWizards = function () {
+    var similarWizardsList = document.querySelector('.setup-similar-list');
+    var fragment = document.createDocumentFragment();
+    var newWizard;
+
+    var wizards = generateWizardsArray ();
+
+    for (var i = 0; i < WIZARDS_NUMBER; i++) {
+      newWizard = renderWizard(wizards[i]);
+      fragment.appendChild(newWizard);
+    }
+
+    similarWizardsList.appendChild(fragment);
+  };
+
   var showSetupWindow = function () {
     var setupWindow = document.querySelector('.setup');
     setupWindow.classList.remove('hidden');
