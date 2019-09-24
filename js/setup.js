@@ -42,11 +42,24 @@
     return wizardsList;
   };
 
+  var renderWizard = function (wizard) {
+    var similarWizardTemplate = document.querySelector('#similar-wizard-template');
+    var wizardElement = similarWizardTemplate.content.cloneNode(true);
+    var wizardName = wizardElement.querySelector('.setup-similar-label');
+    var wizardCoat = wizardElement.querySelector('.wizard-coat');
+    var wizardEyes = wizardElement.querySelector('.wizard-eyes');
+
+    wizardName.textContent = wizard.name;
+    wizardCoat.style.fill = wizard.coatColor;
+    wizardEyes.style.fill = wizard.eyesColor;
+
+    return wizardElement;
+  };
+
   var showSetupWindow = function () {
     var setupWindow = document.querySelector('.setup');
     setupWindow.classList.remove('hidden');
   };
 
-  var wizards = generateWizardsArray();
   showSetupWindow();
 })();
