@@ -61,7 +61,7 @@
     var fragment = document.createDocumentFragment();
     var newWizard;
 
-    var wizards = generateWizardsArray ();
+    var wizards = generateWizardsArray();
 
     for (var i = 0; i < WIZARDS_NUMBER; i++) {
       newWizard = renderWizard(wizards[i]);
