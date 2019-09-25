@@ -9,7 +9,7 @@
 
   // Находим в разметке шаблон для персонажей
 
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template');
+  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 
   // Получаем случайное значение из массива
 
@@ -59,7 +59,7 @@
   // Создаем разметку для одного персонажа
 
   var renderWizard = function (character) {
-    var wizard = similarWizardTemplate.content.cloneNode(true);
+    var wizard = similarWizardTemplate.cloneNode(true);
     var wizardName = wizard.querySelector('.setup-similar-label');
     var wizardCoat = wizard.querySelector('.wizard-coat');
     var wizardEyes = wizard.querySelector('.wizard-eyes');
