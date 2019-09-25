@@ -7,25 +7,33 @@
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var WIZARDS_NUMBER = 4;
 
-  var generateWizardsData = function (array) {
-    var randomData;
-    var newArray = [];
+  // Получаем случайное значение из массива
 
-    while (newArray.length < WIZARDS_NUMBER) {
-      randomData = array[Math.floor(Math.random() * (array.length))];
-      if (newArray.indexOf(randomData) === -1) {
-        newArray.push(randomData);
+  var getRandomValue = function (features) {
+    return features[Math.floor(Math.random() * (features.length))];
+  };
+
+  // Собираем массив с неповторяющимися данными для свойств персонажей
+
+  var generateWizardsProperties = function (features) {
+    var randomProperty = '';
+    var chosenProperties = [];
+
+    while (chosenProperties.length < WIZARDS_NUMBER) {
+      randomProperty = getRandomValue(features);
+      if (chosenProperties.indexOf(randomProperty) === -1) {
+        chosenProperties.push(randomProperty);
       }
     }
 
-    return newArray;
+    return chosenProperties;
   };
 
   var generateWizardsArray = function () {
-    var firstNames = generateWizardsData(FIRST_NAMES);
-    var lastNames = generateWizardsData(LAST_NAMES);
-    var coatColors = generateWizardsData(COAT_COLORS);
-    var eyesColors = generateWizardsData(EYES_COLORS);
+    var firstNames = generateWizardsProperties(FIRST_NAMES);
+    var lastNames = generateWizardsProperties(LAST_NAMES);
+    var coatColors = generateWizardsProperties(COAT_COLORS);
+    var eyesColors = generateWizardsProperties(EYES_COLORS);
     var wizardsList = [];
     var randomWizard;
 
