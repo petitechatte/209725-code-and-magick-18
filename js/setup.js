@@ -7,6 +7,9 @@
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var WIZARDS_NUMBER = 4;
 
+  var setupWindow = document.querySelector('.setup');
+  var buttonSetupOpen = document.querySelector('.setup-open-icon');
+
   // Находим в разметке шаблон для персонажей
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
@@ -96,13 +99,13 @@
     createSimilarWizards();
   };
 
+  showSimilarWizards();
+
   // Показываем окно настроек
 
   var showSetupWindow = function () {
-    var setupWindow = document.querySelector('.setup');
     setupWindow.classList.remove('hidden');
   };
 
-  showSetupWindow();
-  showSimilarWizards();
+  buttonSetupOpen.addEventListener('click', showSetupWindow);
 })();
