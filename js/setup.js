@@ -9,6 +9,7 @@
 
   var setupWindow = document.querySelector('.setup');
   var buttonSetupOpen = document.querySelector('.setup-open-icon');
+  var buttonSetupClose = setupWindow.querySelector('.setup-close');
 
   // Находим в разметке шаблон для персонажей
 
@@ -91,7 +92,7 @@
     similarWizardsList.appendChild(fragment);
   };
 
-  // Показываем болк с персонажами
+  // Показываем блок с персонажами
 
   var showSimilarWizards = function () {
     var similarBlock = document.querySelector('.setup-similar');
@@ -103,9 +104,16 @@
 
   // Показываем окно настроек
 
-  var showSetupWindow = function () {
+  var openButtonClickHandler = function () {
     setupWindow.classList.remove('hidden');
   };
 
-  buttonSetupOpen.addEventListener('click', showSetupWindow);
+  // Прячем окно настроек
+
+  var closeButtonClickHandler = function () {
+    setupWindow.classList.add('hidden');
+  };
+
+  buttonSetupOpen.addEventListener('click', openButtonClickHandler);
+  buttonSetupClose.addEventListener('click', closeButtonClickHandler);
 })();
