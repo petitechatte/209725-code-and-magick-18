@@ -6,6 +6,8 @@
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var WIZARDS_NUMBER = 4;
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
 
   var setupWindow = document.querySelector('.setup');
   var buttonSetupOpen = document.querySelector('.setup-open-icon');
@@ -102,18 +104,26 @@
 
   showSimilarWizards();
 
-  // Показываем окно настроек
-
-  var openButtonClickHandler = function () {
-    setupWindow.classList.remove('hidden');
-  };
-
   // Прячем окно настроек
 
   var closeButtonClickHandler = function () {
     setupWindow.classList.add('hidden');
   };
 
+  // Показываем окно настроек
+
+  var openButtonClickHandler = function () {
+    setupWindow.classList.remove('hidden');
+  };
+
+  // Добавляем обработчики событий
+
   buttonSetupOpen.addEventListener('click', openButtonClickHandler);
+  buttonSetupOpen.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      openButtonClickHandler();
+    }
+  });
+
   buttonSetupClose.addEventListener('click', closeButtonClickHandler);
 })();
