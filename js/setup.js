@@ -141,10 +141,12 @@
     }
   });
 
-  //Если фокус находится на форме ввода имени, то окно закрываться не должно.
+  // Если фокус находится на форме ввода имени, то окно закрываться не должно.
 
   userName.addEventListener('keydown', function (evt) {
-    evt.stopPropagation();
-    userName.blur();
+    if (evt.keyCode === ESC_KEYCODE) {
+      evt.stopPropagation();
+      userName.blur();
+    }
   });
 })();
