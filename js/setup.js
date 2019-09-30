@@ -16,7 +16,7 @@
   var userName = setupWindow.querySelector('.setup-user-name');
   var heroCoat = setupWindow.querySelector('.wizard-coat');
   var heroEyes = setupWindow.querySelector('.wizard-eyes');
-  var fireball = setupWindow.querySelector('.setup-fireball');
+  var fireball = setupWindow.querySelector('.setup-fireball-wrap');
   var heroCoatInput = setupWindow.querySelector('input[name="coat-color"]');
   var heroEyesInput = setupWindow.querySelector('input[name="eyes-color"]');
   var fireballInput = setupWindow.querySelector('input[name="fireball-color"]');
@@ -155,32 +155,46 @@
     }
   });
 
-  // Изменение параметра персонажа
+  // Изменение параметров персонажа
 
-  var changeValue = function (element, input, properties) {
+  var changeValue = function (input, properties) {
     var currentValue = input.value;
     var currentIndex = properties.indexOf(currentValue);
     var newIndex = currentIndex + 1;
+    var newValue = '';
+
     if (newIndex === properties.length) {
       newIndex = 0;
     }
-    input.value = properties[newIndex];
-    element.style.fill = properties[newIndex];
+
+    newValue = properties[newIndex];
+    input.value = newValue;
+    return newValue;
   };
 
-  // Изменение цвета мантии персонажа по нажатию
+  var changeHeroColor = function (element, input, properties) {
+    element.style.fill = changeValue(input, properties);
+  };
+
+  var changeFireBallColor = function (element, input, properties) {
+    element.style.background = changeValue(input, properties);
+  };
+
+  // Изменение цвета мантии персонажа по клику
 
   heroCoat.addEventListener('click', function () {
-    changeValue(heroCoat, heroCoatInput, COAT_COLORS);
+    changeHeroColor(heroCoat, heroCoatInput, COAT_COLORS);
   });
 
-  // Изменение цвета глаз персонажа по нажатию
+  // Изменение цвета глаз персонажа по клику
 
   heroEyes.addEventListener('click', function () {
-    changeValue(heroEyes, heroEyesInput, EYES_COLORS);
+    changeHeroColor(heroEyes, heroEyesInput, EYES_COLORS);
   });
 
+  // Изменение цвета фаербола по клику
+
   fireball.addEventListener('click', function () {
-    changeValue(fireballInput, fireballInput, FIREBALL_COLORS);
+    changeFireBallColor(fireball, fireballInput, FIREBALL_COLORS);
   });
 })();
