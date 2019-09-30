@@ -12,6 +12,7 @@
   var setupWindow = document.querySelector('.setup');
   var buttonSetupOpen = document.querySelector('.setup-open-icon');
   var buttonSetupClose = setupWindow.querySelector('.setup-close');
+  var userName = setupWindow.querySelector('.setup-user-name');
 
   // Находим в разметке шаблон для персонажей
 
@@ -108,12 +109,20 @@
 
   var closeButtonClickHandler = function () {
     setupWindow.classList.add('hidden');
+    document.removeEventListener('keydown', escPressHandler);
+  };
+
+  var escPressHandler = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeButtonClickHandler();
+    }
   };
 
   // Показываем окно настроек
 
   var openButtonClickHandler = function () {
     setupWindow.classList.remove('hidden');
+    document.addEventListener('keydown', escPressHandler);
   };
 
   // Добавляем обработчики событий
@@ -126,4 +135,16 @@
   });
 
   buttonSetupClose.addEventListener('click', closeButtonClickHandler);
+  buttonSetupClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      closeButtonClickHandler();
+    }
+  });
+
+  //Если фокус находится на форме ввода имени, то окно закрываться не должно.
+
+  userName.addEventListener('keydown', function (evt) {
+    evt.stopPropagation();
+    userName.blur();
+  });
 })();
