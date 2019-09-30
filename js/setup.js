@@ -5,6 +5,7 @@
   var LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+  var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var WIZARDS_NUMBER = 4;
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
@@ -13,6 +14,12 @@
   var buttonSetupOpen = document.querySelector('.setup-open-icon');
   var buttonSetupClose = setupWindow.querySelector('.setup-close');
   var userName = setupWindow.querySelector('.setup-user-name');
+  var heroCoat = setupWindow.querySelector('.wizard-coat');
+  var heroEyes = setupWindow.querySelector('.wizard-eyes');
+  var fireball = setupWindow.querySelector('.setup-fireball');
+  var heroCoatInput = setupWindow.querySelector('input[name="coat-color"]');
+  var heroEyesInput = setupWindow.querySelector('input[name="eyes-color"]');
+  var fireballInput = setupWindow.querySelector('input[name="fireball-color"]');
 
   // Находим в разметке шаблон для персонажей
 
@@ -118,22 +125,6 @@
     }
   };
 
-  // Показываем окно настроек
-
-  var openButtonClickHandler = function () {
-    setupWindow.classList.remove('hidden');
-    document.addEventListener('keydown', escPressHandler);
-  };
-
-  // Добавляем обработчики событий
-
-  buttonSetupOpen.addEventListener('click', openButtonClickHandler);
-  buttonSetupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      openButtonClickHandler();
-    }
-  });
-
   buttonSetupClose.addEventListener('click', closeButtonClickHandler);
   buttonSetupClose.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
@@ -148,5 +139,48 @@
       evt.stopPropagation();
       userName.blur();
     }
+  });
+
+  // Показываем окно настроек
+
+  var openButtonClickHandler = function () {
+    setupWindow.classList.remove('hidden');
+    document.addEventListener('keydown', escPressHandler);
+  };
+
+  buttonSetupOpen.addEventListener('click', openButtonClickHandler);
+  buttonSetupOpen.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      openButtonClickHandler();
+    }
+  });
+
+  // Изменение параметра персонажа
+
+  var changeValue = function (element, input, properties) {
+    var currentValue = input.value;
+    var currentIndex = properties.indexOf(currentValue);
+    var newIndex = currentIndex + 1;
+    if (newIndex === properties.length) {
+      newIndex = 0;
+    }
+    input.value = properties[newIndex];
+    element.style.fill = properties[newIndex];
+  };
+
+  // Изменение цвета мантии персонажа по нажатию
+
+  heroCoat.addEventListener('click', function () {
+    changeValue(heroCoat, heroCoatInput, COAT_COLORS);
+  });
+
+  // Изменение цвета глаз персонажа по нажатию
+
+  heroEyes.addEventListener('click', function () {
+    changeValue(heroEyes, heroEyesInput, EYES_COLORS);
+  });
+
+  fireball.addEventListener('click', function () {
+    changeValue(fireballInput, fireballInput, FIREBALL_COLORS);
   });
 })();
