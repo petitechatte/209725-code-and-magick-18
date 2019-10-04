@@ -11,7 +11,7 @@
   var ENTER_KEY_CODE = 13;
 
   var setupWindow = document.querySelector('.setup');
-  var buttonSetupOpen = document.querySelector('.setup-open-icon');
+  var buttonSetupOpen = document.querySelector('.setup-open');
   var buttonSetupClose = setupWindow.querySelector('.setup-close');
   var userName = setupWindow.querySelector('.setup-user-name');
   var heroCoat = setupWindow.querySelector('.wizard-coat');
