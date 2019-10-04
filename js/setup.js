@@ -7,8 +7,8 @@
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var WIZARDS_NUMBER = 4;
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
+  var ESC_KEY_CODE = 27;
+  var ENTER_KEY_CODE = 13;
 
   var setupWindow = document.querySelector('.setup');
   var buttonSetupOpen = document.querySelector('.setup-open-icon');
@@ -120,14 +120,14 @@
   };
 
   var escPressHandler = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEY_CODE) {
       closeButtonClickHandler();
     }
   };
 
   buttonSetupClose.addEventListener('click', closeButtonClickHandler);
   buttonSetupClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+    if (evt.keyCode === ENTER_KEY_CODE) {
       closeButtonClickHandler();
     }
   });
@@ -135,7 +135,7 @@
   // Если фокус находится на форме ввода имени, то окно закрываться не должно.
 
   userName.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEY_CODE) {
       evt.stopPropagation();
       userName.blur();
     }
@@ -150,7 +150,7 @@
 
   buttonSetupOpen.addEventListener('click', openButtonClickHandler);
   buttonSetupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+    if (evt.keyCode === ENTER_KEY_CODE) {
       openButtonClickHandler();
     }
   });
