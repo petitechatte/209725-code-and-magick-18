@@ -9,10 +9,15 @@
   var WIZARDS_NUMBER = 4;
   var ESC_KEY_CODE = 27;
   var ENTER_KEY_CODE = 13;
+  var FOCUS_SHADOW = '0 0 10px #fff000'; // имитация фокуса для псевдокнопок
 
   var setupWindow = document.querySelector('.setup');
   var buttonSetupOpen = document.querySelector('.setup-open');
+  var avatar = buttonSetupOpen.querySelector('.setup-open-icon');
   var buttonSetupClose = setupWindow.querySelector('.setup-close');
+  var buttonUpload = setupWindow.querySelector('.upload');
+  var setupAvatar = buttonUpload.querySelector('.setup-user-pic');
+  var uploadInput = buttonUpload.querySelector('input');
   var userName = setupWindow.querySelector('.setup-user-name');
   var heroCoat = setupWindow.querySelector('.wizard-coat');
   var heroEyes = setupWindow.querySelector('.wizard-eyes');
@@ -154,6 +159,20 @@
       openButtonClickHandler();
     }
   });
+
+  // Имитируем фокус для псевдокнопок
+
+  var simulateFocus = function (activeElement, highlightedElement) {
+    activeElement.addEventListener('focus', function () {
+      highlightedElement.style.boxShadow = FOCUS_SHADOW;
+    });
+    activeElement.addEventListener('blur', function () {
+      highlightedElement.style.boxShadow = 'none';
+    });
+  };
+
+  simulateFocus(buttonSetupOpen, avatar);
+  simulateFocus(uploadInput, setupAvatar);
 
   // Изменение параметров персонажа
 
