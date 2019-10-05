@@ -6,7 +6,7 @@
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-  var WIZARDS_NUMBER = 4;
+  var WIZARDS_NUMBER = 4; // Число похожих персонажей в диалоговом окне настройки
   var ESC_KEY_CODE = 27;
   var ENTER_KEY_CODE = 13;
   var FOCUS_SHADOW = '0 0 10px #fff000'; // имитация фокуса для псевдокнопок
@@ -26,9 +26,11 @@
   var heroEyesInput = setupWindow.querySelector('input[name="eyes-color"]');
   var fireballInput = setupWindow.querySelector('input[name="fireball-color"]');
 
-  // Находим в разметке шаблон для персонажей
+  // Находим в разметке шаблон для персонажей и блок для их размещения
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
+  var similarBlock = document.querySelector('.setup-similar');
+  var similarWizardsList = setupWindow.querySelector('.setup-similar-list');
 
   // Получаем случайное значение из массива
 
@@ -93,7 +95,6 @@
   // Добавляем персонажей на страницу
 
   var createSimilarWizards = function () {
-    var similarWizardsList = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
     var newWizard;
 
@@ -110,12 +111,14 @@
   // Показываем блок с персонажами
 
   var showSimilarWizards = function () {
-    var similarBlock = document.querySelector('.setup-similar');
-    similarBlock.classList.remove('hidden');
     createSimilarWizards();
+    similarBlock.classList.remove('hidden');
   };
 
-  showSimilarWizards();
+  var removeSimilarWizards = function () {
+    similarBlock.classList.add('hidden');
+    similarWizardsList.innerHTML = '';
+  };
 
   // Обработка нажатия клавиши Esc
   var treatEscKeydown = function (evt, action) {
@@ -142,6 +145,8 @@
   var closeButtonClickHandler = function () {
     // Скрываем окно
     setupWindow.classList.add('hidden');
+    // Удаляем сгенерированных персонажей
+    removeSimilarWizards();
     // Убираем обработчик нажатия Esc
     document.removeEventListener('keydown', escKeydownHandler);
   };
@@ -166,6 +171,8 @@
   // Показываем окно настроек
 
   var openButtonClickHandler = function () {
+    // Генерируем новых случайных персонажей
+    showSimilarWizards();
     // Показываем окно
     setupWindow.classList.remove('hidden');
     // Добавляем временный обработчик нажатия Esc
