@@ -180,13 +180,12 @@
     var currentValue = input.value;
     var currentIndex = properties.indexOf(currentValue);
     var newIndex = currentIndex + 1;
-    var newValue = '';
 
     if (newIndex === properties.length) {
       newIndex = 0;
     }
 
-    newValue = properties[newIndex];
+    var newValue = properties[newIndex];
     input.value = newValue;
     return newValue;
   };
@@ -195,7 +194,7 @@
     element.style.fill = changeValue(input, properties);
   };
 
-  var changeFireBallColor = function (element, input, properties) {
+  var changeFireballColor = function (element, input, properties) {
     element.style.background = changeValue(input, properties);
   };
 
@@ -214,6 +213,6 @@
   // Изменение цвета фаербола по клику
 
   fireball.addEventListener('click', function () {
-    changeFireBallColor(fireball, fireballInput, FIREBALL_COLORS);
+    changeFireballColor(fireball, fireballInput, FIREBALL_COLORS);
   });
 })();
