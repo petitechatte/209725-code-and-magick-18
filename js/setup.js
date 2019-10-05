@@ -117,47 +117,66 @@
 
   showSimilarWizards();
 
+  // Обработка нажатия клавиши Esc
+  var treatEscKeydown = function (evt, action) {
+    if (evt.keyCode === ESC_KEY_CODE) {
+      var target = evt.target;
+      if (target.tagName === 'INPUT') {
+        evt.stopPropagation();
+        target.blur();
+      } else {
+        action();
+      }
+    }
+  };
+
+  // Обработка нажатия клавиши Enter
+  var treatEnterKeydown = function (evt, action) {
+    if (evt.keyCode === ENTER_KEY_CODE) {
+      action();
+    }
+  };
+
   // Прячем окно настроек
 
   var closeButtonClickHandler = function () {
+    // Скрываем окно
     setupWindow.classList.add('hidden');
+    // Убираем обработчик нажатия Esc
     document.removeEventListener('keydown', escKeydownHandler);
   };
 
+  // Обработчик закрытия окна по нажатию Esc, будет удаляться после закрытия окна
+
   var escKeydownHandler = function (evt) {
-    if (evt.keyCode === ESC_KEY_CODE) {
-      closeButtonClickHandler();
-    }
+    treatEscKeydown(evt, closeButtonClickHandler);
   };
+
+  // Добавляем обработчики на кнопку закрытия окна
 
   buttonSetupClose.addEventListener('click', closeButtonClickHandler);
   buttonSetupClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEY_CODE) {
-      closeButtonClickHandler();
-    }
+    treatEnterKeydown(evt, closeButtonClickHandler);
   });
 
   // Если фокус находится на форме ввода имени, то окно закрываться не должно.
 
-  userName.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEY_CODE) {
-      evt.stopPropagation();
-      userName.blur();
-    }
-  });
+  userName.addEventListener('keydown', treatEscKeydown);
 
   // Показываем окно настроек
 
   var openButtonClickHandler = function () {
+    // Показываем окно
     setupWindow.classList.remove('hidden');
+    // Добавляем временный обработчик нажатия Esc
     document.addEventListener('keydown', escKeydownHandler);
   };
 
+  // Добавляем обработчики на кнопку открытия окна
+
   buttonSetupOpen.addEventListener('click', openButtonClickHandler);
   buttonSetupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEY_CODE) {
-      openButtonClickHandler();
-    }
+    treatEnterKeydown(evt, openButtonClickHandler);
   });
 
   // Имитируем фокус для псевдокнопок
