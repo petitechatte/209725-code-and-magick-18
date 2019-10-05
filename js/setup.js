@@ -121,10 +121,10 @@
 
   var closeButtonClickHandler = function () {
     setupWindow.classList.add('hidden');
-    document.removeEventListener('keydown', escPressHandler);
+    document.removeEventListener('keydown', escKeydownHandler);
   };
 
-  var escPressHandler = function (evt) {
+  var escKeydownHandler = function (evt) {
     if (evt.keyCode === ESC_KEY_CODE) {
       closeButtonClickHandler();
     }
@@ -150,7 +150,7 @@
 
   var openButtonClickHandler = function () {
     setupWindow.classList.remove('hidden');
-    document.addEventListener('keydown', escPressHandler);
+    document.addEventListener('keydown', escKeydownHandler);
   };
 
   buttonSetupOpen.addEventListener('click', openButtonClickHandler);
