@@ -249,29 +249,19 @@
     return newValue;
   };
 
+  // Меняем по клику цвет для выбранного элемента персонажа
+
   var changeHeroColor = function (element, input, properties) {
-    element.style.fill = changeValue(input, properties);
+    element.addEventListener('click', function () {
+      if (element.tagName === 'DIV') {
+        element.style.background = changeValue(input, properties);
+      } else {
+        element.style.fill = changeValue(input, properties);
+      }
+    });
   };
 
-  var changeFireballColor = function (element, input, properties) {
-    element.style.background = changeValue(input, properties);
-  };
-
-  // Изменение цвета мантии персонажа по клику
-
-  heroCoat.addEventListener('click', function () {
-    changeHeroColor(heroCoat, heroCoatInput, COAT_COLORS);
-  });
-
-  // Изменение цвета глаз персонажа по клику
-
-  heroEyes.addEventListener('click', function () {
-    changeHeroColor(heroEyes, heroEyesInput, EYES_COLORS);
-  });
-
-  // Изменение цвета фаербола по клику
-
-  fireball.addEventListener('click', function () {
-    changeFireballColor(fireball, fireballInput, FIREBALL_COLORS);
-  });
+  changeHeroColor(heroCoat, heroCoatInput, COAT_COLORS);
+  changeHeroColor(heroEyes, heroEyesInput, EYES_COLORS);
+  changeHeroColor(fireball, fireballInput, FIREBALL_COLORS);
 })();
