@@ -120,14 +120,14 @@
     similarWizardsList.innerHTML = '';
   };
 
-  // Определение нажатия клавиши Esc с учетом фокуса в поле ввода
-  var treatEscKeydown = function (evt, action) {
+  // Обработчик нажатия клавиши Esc с учетом фокуса в поле ввода
+  var escKeydownHandler = function (evt) {
     if (evt.keyCode === ESC_KEY_CODE) {
       if (evt.target === userName) {
         evt.stopPropagation();
         evt.target.blur();
       } else {
-        action();
+        closeSetupWindow();
       }
     }
   };
@@ -141,31 +141,36 @@
 
   // Прячем окно настроек
 
-  var closeButtonClickHandler = function () {
+  var closeSetupWindow = function () {
     // Скрываем окно
     setupWindow.classList.add('hidden');
     // Удаляем сгенерированных персонажей
     removeSimilarWizards();
     // Убираем обработчик нажатия Esc
     document.removeEventListener('keydown', escKeydownHandler);
+    // Возвращаем обработчик клика на кнопку открытия окна
+    buttonSetupOpen.addEventListener('click', openButtonClickHandler);
   };
 
-  // Обработчик закрытия окна по нажатию Esc, будет удаляться после закрытия окна
+  // Обработчик нажатия Enter, будет удаляться с кнопки открытия окна при открытом окне
 
-  var escKeydownHandler = function (evt) {
-    treatEscKeydown(evt, closeButtonClickHandler);
+  var enterKydownHandler = function (evt, action) {
+    treatEnterKeydown(action);
   };
 
   // Добавляем обработчики на кнопку закрытия окна
 
-  buttonSetupClose.addEventListener('click', closeButtonClickHandler);
+  buttonSetupClose.addEventListener('click', function () {
+    closeSetupWindow();
+  });
+
   buttonSetupClose.addEventListener('keydown', function (evt) {
-    treatEnterKeydown(evt, closeButtonClickHandler);
+    treatEnterKeydown(evt, closeSetupWindow);
   });
 
   // Если фокус находится на поле ввода имени, то окно закрываться не должно.
 
-  userName.addEventListener('keydown', treatEscKeydown);
+  userName.addEventListener('keydown', escKeydownHandler);
 
   // Показываем окно настроек
 
@@ -176,11 +181,14 @@
     setupWindow.classList.remove('hidden');
     // Добавляем временный обработчик нажатия Esc
     document.addEventListener('keydown', escKeydownHandler);
+    // Удаляем обработчик клика c кнопки открытия (во избежание генерации дополнительных персонажей)
+    buttonSetupOpen.removeEventListener('click', openButtonClickHandler);
   };
 
   // Добавляем обработчики на кнопку открытия окна
 
   buttonSetupOpen.addEventListener('click', openButtonClickHandler);
+  // Тоже надо удалять!!!
   buttonSetupOpen.addEventListener('keydown', function (evt) {
     treatEnterKeydown(evt, openButtonClickHandler);
   });
