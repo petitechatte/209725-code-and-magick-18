@@ -132,10 +132,18 @@
     }
   };
 
+  // Если фокус находится на поле ввода имени, то окно закрываться не должно.
+
+  userName.addEventListener('keydown', escKeydownHandler);
+
   // Определение нажатия клавиши Enter
-  var treatEnterKeydown = function (evt, action) {
+  var enterKydownHandler = function (evt) {
     if (evt.keyCode === ENTER_KEY_CODE) {
-      action();
+      if (evt.target === buttonSetupOpen) {
+        openSetupWindow();
+      } else if (evt.target === buttonSetupClose) {
+        closeSetupWindow();
+      }
     }
   };
 
@@ -148,14 +156,12 @@
     removeSimilarWizards();
     // Убираем обработчик нажатия Esc
     document.removeEventListener('keydown', escKeydownHandler);
-    // Возвращаем обработчик клика на кнопку открытия окна
+    // Возвращаем обработчики на кнопку открытия окна
     buttonSetupOpen.addEventListener('click', openButtonClickHandler);
-  };
-
-  // Обработчик нажатия Enter, будет удаляться с кнопки открытия окна при открытом окне
-
-  var enterKydownHandler = function (evt, action) {
-    treatEnterKeydown(action);
+    buttonSetupOpen.addEventListener('keydown', enterKydownHandler);
+    buttonSetupOpen.addEventListener('focus', buttonFocusHandler);
+    // Возвращаем кнопку в порядок фокуса
+    buttonSetupOpen.tabIndex = '0';
   };
 
   // Добавляем обработчики на кнопку закрытия окна
@@ -164,48 +170,68 @@
     closeSetupWindow();
   });
 
-  buttonSetupClose.addEventListener('keydown', function (evt) {
-    treatEnterKeydown(evt, closeSetupWindow);
-  });
-
-  // Если фокус находится на поле ввода имени, то окно закрываться не должно.
-
-  userName.addEventListener('keydown', escKeydownHandler);
+  buttonSetupClose.addEventListener('keydown', enterKydownHandler);
 
   // Показываем окно настроек
 
-  var openButtonClickHandler = function () {
+  var openSetupWindow = function () {
     // Генерируем новых случайных персонажей
     showSimilarWizards();
     // Показываем окно
     setupWindow.classList.remove('hidden');
     // Добавляем временный обработчик нажатия Esc
     document.addEventListener('keydown', escKeydownHandler);
-    // Удаляем обработчик клика c кнопки открытия (во избежание генерации дополнительных персонажей)
+    // Удаляем обработчики c кнопки открытия
     buttonSetupOpen.removeEventListener('click', openButtonClickHandler);
+    buttonSetupOpen.removeEventListener('keydown', enterKydownHandler);
+    buttonSetupOpen.removeEventListener('focus', buttonFocusHandler);
+    // Удаляем кнопку открытия из порядка фокуса
+    buttonSetupOpen.tabIndex = '-1';
+    buttonSetupOpen.blur();
+  };
+
+  var openButtonClickHandler = function () {
+    openSetupWindow();
   };
 
   // Добавляем обработчики на кнопку открытия окна
 
   buttonSetupOpen.addEventListener('click', openButtonClickHandler);
-  // Тоже надо удалять!!!
-  buttonSetupOpen.addEventListener('keydown', function (evt) {
-    treatEnterKeydown(evt, openButtonClickHandler);
-  });
+  buttonSetupOpen.addEventListener('keydown', enterKydownHandler);
 
   // Имитируем фокус для псевдокнопок
 
-  var simulateFocus = function (activeElement, highlightedElement) {
-    activeElement.addEventListener('focus', function () {
-      highlightedElement.style.boxShadow = FOCUS_SHADOW;
-    });
-    activeElement.addEventListener('blur', function () {
-      highlightedElement.style.boxShadow = 'none';
-    });
+  var getHighlightedElement = function (activeElement) {
+    var highlightedElement;
+    if (activeElement === buttonSetupOpen) {
+      highlightedElement = avatar;
+    } else if (activeElement === uploadInput) {
+      highlightedElement = setupAvatar;
+    }
+    return highlightedElement;
   };
 
-  simulateFocus(buttonSetupOpen, avatar);
-  simulateFocus(uploadInput, setupAvatar);
+  var setBoxShadow = function (element, shadow) {
+    element.style.boxShadow = shadow;
+  };
+
+  var buttonFocusHandler = function (evt) {
+    var activeElement = getHighlightedElement(evt.target);
+    setBoxShadow(activeElement, FOCUS_SHADOW);
+  };
+
+  var buttonBlurHandler = function (evt) {
+    var activeElement = getHighlightedElement(evt.target);
+    setBoxShadow(activeElement, 'none');
+  };
+
+  var simulateFocus = function (element) {
+    element.addEventListener('focus', buttonFocusHandler);
+    element.addEventListener('blur', buttonBlurHandler);
+  };
+
+  simulateFocus(buttonSetupOpen);
+  simulateFocus(uploadInput);
 
   // Изменение параметров персонажа
 
