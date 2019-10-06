@@ -120,20 +120,19 @@
     similarWizardsList.innerHTML = '';
   };
 
-  // Обработка нажатия клавиши Esc
+  // Определение нажатия клавиши Esc с учетом фокуса в поле ввода
   var treatEscKeydown = function (evt, action) {
     if (evt.keyCode === ESC_KEY_CODE) {
-      var target = evt.target;
-      if (target.tagName === 'INPUT') {
+      if (evt.target === userName) {
         evt.stopPropagation();
-        target.blur();
+        evt.target.blur();
       } else {
         action();
       }
     }
   };
 
-  // Обработка нажатия клавиши Enter
+  // Определение нажатия клавиши Enter
   var treatEnterKeydown = function (evt, action) {
     if (evt.keyCode === ENTER_KEY_CODE) {
       action();
@@ -164,7 +163,7 @@
     treatEnterKeydown(evt, closeButtonClickHandler);
   });
 
-  // Если фокус находится на форме ввода имени, то окно закрываться не должно.
+  // Если фокус находится на поле ввода имени, то окно закрываться не должно.
 
   userName.addEventListener('keydown', treatEscKeydown);
 
