@@ -17,7 +17,7 @@
   var buttonSetupClose = setupWindow.querySelector('.setup-close');
   var buttonUpload = setupWindow.querySelector('.upload');
   var setupAvatar = buttonUpload.querySelector('.setup-user-pic');
-  var uploadInput = buttonUpload.querySelector('input');
+  var uploadInput = buttonUpload.querySelector('input[name="avatar"]');
   var userName = setupWindow.querySelector('.setup-user-name');
   var heroCoat = setupWindow.querySelector('.wizard-coat');
   var heroEyes = setupWindow.querySelector('.wizard-eyes');
