@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  // Модуль поведения диалогового окна
+
   // Коды управляющих клавиш
   var ESC_KEY_CODE = 27;
   var ENTER_KEY_CODE = 13;
