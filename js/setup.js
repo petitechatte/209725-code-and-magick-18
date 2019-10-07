@@ -5,11 +5,32 @@
   var LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-  var WIZARDS_NUMBER = 4;
+  var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+  var WIZARDS_NUMBER = 4; // Число похожих персонажей в диалоговом окне настройки
+  var ESC_KEY_CODE = 27;
+  var ENTER_KEY_CODE = 13;
+  var FOCUS_SHADOW = '0 0 10px #fff000'; // имитация фокуса для псевдокнопок
 
-  // Находим в разметке шаблон для персонажей
+  var setupWindow = document.querySelector('.setup');
+  var buttonSetupOpen = document.querySelector('.setup-open');
+  var avatar = buttonSetupOpen.querySelector('.setup-open-icon');
+  var buttonSetupClose = setupWindow.querySelector('.setup-close');
+  var buttonUpload = setupWindow.querySelector('.upload');
+  var setupAvatar = buttonUpload.querySelector('.setup-user-pic');
+  var uploadInput = buttonUpload.querySelector('input[name="avatar"]');
+  var userName = setupWindow.querySelector('.setup-user-name');
+  var heroCoat = setupWindow.querySelector('.wizard-coat');
+  var heroEyes = setupWindow.querySelector('.wizard-eyes');
+  var fireball = setupWindow.querySelector('.setup-fireball-wrap');
+  var heroCoatInput = setupWindow.querySelector('input[name="coat-color"]');
+  var heroEyesInput = setupWindow.querySelector('input[name="eyes-color"]');
+  var fireballInput = setupWindow.querySelector('input[name="fireball-color"]');
+
+  // Находим в разметке шаблон для персонажей и блок для их размещения
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
+  var similarBlock = document.querySelector('.setup-similar');
+  var similarWizardsList = setupWindow.querySelector('.setup-similar-list');
 
   // Получаем случайное значение из массива
 
@@ -74,7 +95,6 @@
   // Добавляем персонажей на страницу
 
   var createSimilarWizards = function () {
-    var similarWizardsList = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
     var newWizard;
 
@@ -88,21 +108,160 @@
     similarWizardsList.appendChild(fragment);
   };
 
-  // Показываем болк с персонажами
+  // Показываем блок с персонажами
 
   var showSimilarWizards = function () {
-    var similarBlock = document.querySelector('.setup-similar');
-    similarBlock.classList.remove('hidden');
     createSimilarWizards();
+    similarBlock.classList.remove('hidden');
   };
+
+  var removeSimilarWizards = function () {
+    similarBlock.classList.add('hidden');
+    similarWizardsList.innerHTML = '';
+  };
+
+  // Обработчик нажатия клавиши Esc с учетом фокуса в поле ввода
+  var escKeydownHandler = function (evt) {
+    if (evt.keyCode === ESC_KEY_CODE) {
+      if (evt.target === userName) {
+        evt.stopPropagation();
+        evt.target.blur();
+      } else {
+        closeSetupWindow();
+      }
+    }
+  };
+
+  // Если фокус находится на поле ввода имени, то окно закрываться не должно.
+
+  userName.addEventListener('keydown', escKeydownHandler);
+
+  // Определение нажатия клавиши Enter
+  var enterKydownHandler = function (evt) {
+    if (evt.keyCode === ENTER_KEY_CODE) {
+      if (evt.target === buttonSetupOpen) {
+        openSetupWindow();
+      } else if (evt.target === buttonSetupClose) {
+        closeSetupWindow();
+      }
+    }
+  };
+
+  // Прячем окно настроек
+
+  var closeSetupWindow = function () {
+    // Скрываем окно
+    setupWindow.classList.add('hidden');
+    // Удаляем сгенерированных персонажей
+    removeSimilarWizards();
+    // Убираем обработчик нажатия Esc
+    document.removeEventListener('keydown', escKeydownHandler);
+    // Возвращаем обработчики на кнопку открытия окна
+    buttonSetupOpen.addEventListener('click', openButtonClickHandler);
+    buttonSetupOpen.addEventListener('keydown', enterKydownHandler);
+    buttonSetupOpen.addEventListener('focus', buttonFocusHandler);
+    // Возвращаем кнопку в порядок фокуса
+    buttonSetupOpen.tabIndex = '0';
+  };
+
+  // Добавляем обработчики на кнопку закрытия окна
+
+  buttonSetupClose.addEventListener('click', function () {
+    closeSetupWindow();
+  });
+
+  buttonSetupClose.addEventListener('keydown', enterKydownHandler);
 
   // Показываем окно настроек
 
-  var showSetupWindow = function () {
-    var setupWindow = document.querySelector('.setup');
+  var openSetupWindow = function () {
+    // Генерируем новых случайных персонажей
+    showSimilarWizards();
+    // Показываем окно
     setupWindow.classList.remove('hidden');
+    // Добавляем временный обработчик нажатия Esc
+    document.addEventListener('keydown', escKeydownHandler);
+    // Удаляем обработчики c кнопки открытия
+    buttonSetupOpen.removeEventListener('click', openButtonClickHandler);
+    buttonSetupOpen.removeEventListener('keydown', enterKydownHandler);
+    buttonSetupOpen.removeEventListener('focus', buttonFocusHandler);
+    // Удаляем кнопку открытия из порядка фокуса
+    buttonSetupOpen.tabIndex = '-1';
+    buttonSetupOpen.blur();
   };
 
-  showSetupWindow();
-  showSimilarWizards();
+  var openButtonClickHandler = function () {
+    openSetupWindow();
+  };
+
+  // Добавляем обработчики на кнопку открытия окна
+
+  buttonSetupOpen.addEventListener('click', openButtonClickHandler);
+  buttonSetupOpen.addEventListener('keydown', enterKydownHandler);
+
+  // Имитируем фокус для псевдокнопок
+
+  var getHighlightedElement = function (activeElement) {
+    var highlightedElement;
+    if (activeElement === buttonSetupOpen) {
+      highlightedElement = avatar;
+    } else if (activeElement === uploadInput) {
+      highlightedElement = setupAvatar;
+    }
+    return highlightedElement;
+  };
+
+  var setBoxShadow = function (element, shadow) {
+    element.style.boxShadow = shadow;
+  };
+
+  var buttonFocusHandler = function (evt) {
+    var activeElement = getHighlightedElement(evt.target);
+    setBoxShadow(activeElement, FOCUS_SHADOW);
+  };
+
+  var buttonBlurHandler = function (evt) {
+    var activeElement = getHighlightedElement(evt.target);
+    setBoxShadow(activeElement, 'none');
+  };
+
+  var simulateFocus = function (element) {
+    element.addEventListener('focus', buttonFocusHandler);
+    element.addEventListener('blur', buttonBlurHandler);
+  };
+
+  simulateFocus(buttonSetupOpen);
+  simulateFocus(uploadInput);
+
+  // Изменение параметров персонажа
+
+  var changeValue = function (input, properties) {
+    var currentValue = input.value;
+    var currentIndex = properties.indexOf(currentValue);
+    var newIndex = currentIndex + 1;
+
+    if (newIndex === properties.length) {
+      newIndex = 0;
+    }
+
+    var newValue = properties[newIndex];
+    input.value = newValue;
+    return newValue;
+  };
+
+  // Меняем по клику цвет для выбранного элемента персонажа
+
+  var changeHeroColor = function (element, input, properties) {
+    element.addEventListener('click', function () {
+      if (element.tagName === 'DIV') {
+        element.style.background = changeValue(input, properties);
+      } else {
+        element.style.fill = changeValue(input, properties);
+      }
+    });
+  };
+
+  changeHeroColor(heroCoat, heroCoatInput, COAT_COLORS);
+  changeHeroColor(heroEyes, heroEyesInput, EYES_COLORS);
+  changeHeroColor(fireball, fireballInput, FIREBALL_COLORS);
 })();
