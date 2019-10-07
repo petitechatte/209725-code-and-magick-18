@@ -64,22 +64,10 @@
     return newColor;
   };
 
-  // Поиск наибольшего значения массива
-
-  var getMaxValue = function (array) {
-    var maxValue = array[0];
-    for (var i = 1; i < array.length; i++) {
-      if (array[i] > maxValue) {
-        maxValue = array[i];
-      }
-    }
-    return maxValue;
-  };
-
   // Построение диаграммы результатов игры
 
   var renderGraph = function (ctx, names, times) {
-    var maxTime = getMaxValue(times);
+    var maxTime = window.util.getMaxValue(times);
     var barHeight;
     var barTopMargin;
     var barLeftMargin;

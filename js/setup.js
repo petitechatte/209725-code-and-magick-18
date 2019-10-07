@@ -11,32 +11,25 @@
   var ENTER_KEY_CODE = 13;
   var FOCUS_SHADOW = '0 0 10px #fff000'; // имитация фокуса для псевдокнопок
 
-  var setupWindow = document.querySelector('.setup');
   var buttonSetupOpen = document.querySelector('.setup-open');
   var avatar = buttonSetupOpen.querySelector('.setup-open-icon');
-  var buttonSetupClose = setupWindow.querySelector('.setup-close');
-  var buttonUpload = setupWindow.querySelector('.upload');
+  var buttonSetupClose = window.util.setupWindow.querySelector('.setup-close');
+  var buttonUpload = window.util.setupWindow.querySelector('.upload');
   var setupAvatar = buttonUpload.querySelector('.setup-user-pic');
   var uploadInput = buttonUpload.querySelector('input[name="avatar"]');
-  var userName = setupWindow.querySelector('.setup-user-name');
-  var heroCoat = setupWindow.querySelector('.wizard-coat');
-  var heroEyes = setupWindow.querySelector('.wizard-eyes');
-  var fireball = setupWindow.querySelector('.setup-fireball-wrap');
-  var heroCoatInput = setupWindow.querySelector('input[name="coat-color"]');
-  var heroEyesInput = setupWindow.querySelector('input[name="eyes-color"]');
-  var fireballInput = setupWindow.querySelector('input[name="fireball-color"]');
+  var userName = window.util.setupWindow.querySelector('.setup-user-name');
+  var heroCoat = window.util.setupWindow.querySelector('.wizard-coat');
+  var heroEyes = window.util.setupWindow.querySelector('.wizard-eyes');
+  var fireball = window.util.setupWindow.querySelector('.setup-fireball-wrap');
+  var heroCoatInput = window.util.setupWindow.querySelector('input[name="coat-color"]');
+  var heroEyesInput = window.util.setupWindow.querySelector('input[name="eyes-color"]');
+  var fireballInput = window.util.setupWindow.querySelector('input[name="fireball-color"]');
 
   // Находим в разметке шаблон для персонажей и блок для их размещения
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
   var similarBlock = document.querySelector('.setup-similar');
-  var similarWizardsList = setupWindow.querySelector('.setup-similar-list');
-
-  // Получаем случайное значение из массива
-
-  var getRandomValue = function (features) {
-    return features[Math.floor(Math.random() * (features.length))];
-  };
+  var similarWizardsList = window.util.setupWindow.querySelector('.setup-similar-list');
 
   // Собираем массив с неповторяющимися данными для свойств персонажей
 
@@ -45,7 +38,8 @@
     var chosenProperties = [];
 
     while (chosenProperties.length < WIZARDS_NUMBER) {
-      randomProperty = getRandomValue(features);
+      randomProperty = window.util.getRandomValue(features);
+
       if (chosenProperties.indexOf(randomProperty) === -1) {
         chosenProperties.push(randomProperty);
       }
@@ -151,7 +145,7 @@
 
   var closeSetupWindow = function () {
     // Скрываем окно
-    setupWindow.classList.add('hidden');
+    window.util.setupWindow.classList.add('hidden');
     // Удаляем сгенерированных персонажей
     removeSimilarWizards();
     // Убираем обработчик нажатия Esc
@@ -178,7 +172,7 @@
     // Генерируем новых случайных персонажей
     showSimilarWizards();
     // Показываем окно
-    setupWindow.classList.remove('hidden');
+    window.util.setupWindow.classList.remove('hidden');
     // Добавляем временный обработчик нажатия Esc
     document.addEventListener('keydown', escKeydownHandler);
     // Удаляем обработчики c кнопки открытия
@@ -233,30 +227,14 @@
   simulateFocus(buttonSetupOpen);
   simulateFocus(uploadInput);
 
-  // Изменение параметров персонажа
-
-  var changeValue = function (input, properties) {
-    var currentValue = input.value;
-    var currentIndex = properties.indexOf(currentValue);
-    var newIndex = currentIndex + 1;
-
-    if (newIndex === properties.length) {
-      newIndex = 0;
-    }
-
-    var newValue = properties[newIndex];
-    input.value = newValue;
-    return newValue;
-  };
-
   // Меняем по клику цвет для выбранного элемента персонажа
 
   var changeHeroColor = function (element, input, properties) {
     element.addEventListener('click', function () {
       if (element.tagName === 'DIV') {
-        element.style.background = changeValue(input, properties);
+        element.style.background = window.util.changeValue(input, properties);
       } else {
-        element.style.fill = changeValue(input, properties);
+        element.style.fill = window.util.changeValue(input, properties);
       }
     });
   };
