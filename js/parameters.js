@@ -5,12 +5,18 @@
 
   // Пространство имен не использовалось, чтобы не вносить изменения в исходный модуль game.js
 
+  // Устанавливаем размер фаербола
   window.fireballSize = 22;
+  // Устанавливаем скорость движения персонажа
   window.wizardSpeed = 3;
+  // Устанавливаем ширину персонажа
   window.wizardWidth = 70;
+  // Устанавливаем коэффициенты пропорциональности согласно ТЗ
   var wizardHeightMultiplier = 1.337;
   var wizardXMultiplier = 0.5;
   var wizardYMultiplier = 2 / 3;
+
+  // Определяем скорость движения фаербола с поправкой на ветер
 
   window.getFireballSpeed = function (left) {
     return left ? 5 : 2;
