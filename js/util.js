@@ -37,5 +37,13 @@
       input.value = newValue;
       return newValue;
     },
+
+    // Получение координат мыши
+    getMouseCoordinates: function (evt) {
+      return {
+        x: evt.clientX,
+        y: evt.clientY
+      };
+    }
   };
 })();

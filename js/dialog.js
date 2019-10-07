@@ -18,6 +18,13 @@
   var uploadInput = buttonUpload.querySelector('input[name="avatar"]');
   var userName = window.util.setupWindow.querySelector('.setup-user-name');
 
+  // Получаем исходное положение окна
+
+  var startSetupCoordinates = {
+    x: window.util.setupWindow.style.left,
+    y: window.util.setupWindow.style.top
+  };
+
   // Обработчик нажатия клавиши Esc с учетом фокуса в поле ввода
   var escKeydownHandler = function (evt) {
     if (evt.keyCode === ESC_KEY_CODE) {
@@ -59,6 +66,9 @@
     buttonSetupOpen.addEventListener('focus', buttonFocusHandler);
     // Возвращаем кнопку в порядок фокуса
     buttonSetupOpen.tabIndex = '0';
+    // Возвращаем исходные координаы окна
+    window.util.setupWindow.style.left = startSetupCoordinates.x;
+    window.util.setupWindow.style.top = startSetupCoordinates.y;
   };
 
   // Добавляем обработчики на кнопку закрытия окна
@@ -129,4 +139,65 @@
 
   simulateFocus(buttonSetupOpen);
   simulateFocus(uploadInput);
+
+  // Перемещение окна
+
+  // Захват окна мышью
+
+  var moveButtonMouseDownHandler = function (downEvt) {
+    downEvt.preventDefault();
+    // Получаем начальные координаты мыши
+    var mouseCoordinates = window.util.getMouseCoordinates(downEvt);
+    var dragged = false; // флаг перемещения
+
+    // Перемещение мыши
+
+    var moveButtonMouseMoveHandler = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      // Объявляем перемещение
+      dragged = true;
+
+      // Рассчитываем смещение мыши
+      var shift = {
+        x: mouseCoordinates.x - moveEvt.clientX,
+        y: mouseCoordinates.y - moveEvt.clientY
+      };
+
+      // Обновляем текущие координаты
+      mouseCoordinates = window.util.getMouseCoordinates(moveEvt);
+
+      // Перемещаем окно
+      window.util.setupWindow.style.left = String(window.util.setupWindow.offsetLeft - shift.x) + 'px';
+      window.util.setupWindow.style.top = String(window.util.setupWindow.offsetTop - shift.y) + 'px';
+    };
+
+    // Отпускаем окно
+
+    var moveButtonMouseUpHandler = function (upEvt) {
+      upEvt.preventDefault();
+
+      // Отделяем перемещение от клика
+      var buttonDraggedClickHandler = function (evt) {
+        evt.preventDefault();
+        buttonUpload.removeEventListener('click', buttonDraggedClickHandler);
+      };
+
+      if (dragged) {
+        buttonUpload.addEventListener('click', buttonDraggedClickHandler);
+      }
+
+      // Снимаем обработчики перемещения и отпускания мыши
+
+      document.removeEventListener('mousemove', moveButtonMouseMoveHandler);
+      document.removeEventListener('mouseup', moveButtonMouseUpHandler);
+    };
+
+    // Добавляем обработчики перемещения и отпускания мыши
+    document.addEventListener('mousemove', moveButtonMouseMoveHandler);
+    document.addEventListener('mouseup', moveButtonMouseUpHandler);
+  };
+
+  // Добавляем обработчик захвата окна мышью
+  buttonUpload.addEventListener('mousedown', moveButtonMouseDownHandler);
 })();
