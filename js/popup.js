@@ -44,7 +44,7 @@
   userName.addEventListener('keydown', escKeydownHandler);
 
   // Определение нажатия клавиши Enter
-  var enterKydownHandler = function (evt) {
+  var enterKeydownHandler = function (evt) {
     if (evt.keyCode === ENTER_KEY_CODE) {
       if (evt.target === buttonSetupOpen) {
         openSetupWindow();
@@ -65,7 +65,7 @@
     document.removeEventListener('keydown', escKeydownHandler);
     // Возвращаем обработчики на кнопку открытия окна
     buttonSetupOpen.addEventListener('click', openButtonClickHandler);
-    buttonSetupOpen.addEventListener('keydown', enterKydownHandler);
+    buttonSetupOpen.addEventListener('keydown', enterKeydownHandler);
     buttonSetupOpen.addEventListener('focus', buttonFocusHandler);
     // Возвращаем кнопку в порядок фокуса
     buttonSetupOpen.tabIndex = '0';
@@ -80,7 +80,7 @@
     closeSetupWindow();
   });
 
-  buttonSetupClose.addEventListener('keydown', enterKydownHandler);
+  buttonSetupClose.addEventListener('keydown', enterKeydownHandler);
 
   // Показываем окно настроек
 
@@ -93,7 +93,7 @@
     document.addEventListener('keydown', escKeydownHandler);
     // Удаляем обработчики c кнопки открытия
     buttonSetupOpen.removeEventListener('click', openButtonClickHandler);
-    buttonSetupOpen.removeEventListener('keydown', enterKydownHandler);
+    buttonSetupOpen.removeEventListener('keydown', enterKeydownHandler);
     buttonSetupOpen.removeEventListener('focus', buttonFocusHandler);
     // Удаляем кнопку открытия из порядка фокуса
     buttonSetupOpen.tabIndex = '-1';
@@ -107,7 +107,7 @@
   // Добавляем обработчики на кнопку открытия окна
 
   buttonSetupOpen.addEventListener('click', openButtonClickHandler);
-  buttonSetupOpen.addEventListener('keydown', enterKydownHandler);
+  buttonSetupOpen.addEventListener('keydown', enterKeydownHandler);
 
   // Имитируем фокус для псевдокнопок
 
