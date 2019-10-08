@@ -50,8 +50,8 @@
   var generateWizards = function () {
     var firstNames = generateWizardsProperties(FIRST_NAMES);
     var lastNames = generateWizardsProperties(LAST_NAMES);
-    var coatColors = generateWizardsProperties(window.setup.COAT_COLORS);
-    var eyesColors = generateWizardsProperties(window.setup.EYES_COLORS);
+    var coatColors = generateWizardsProperties(window.settings.COAT_COLORS);
+    var eyesColors = generateWizardsProperties(window.settings.EYES_COLORS);
     var wizardsList = [];
     var currentWizard = {};
 
