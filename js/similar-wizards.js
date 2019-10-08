@@ -13,6 +13,21 @@
   var similarBlock = document.querySelector('.setup-similar');
   var similarWizardsList = window.util.setupWindow.querySelector('.setup-similar-list');
 
+  // Экспортируем функции для модуля работы диалогового окна
+
+  window.similarWizards = {
+    // Показываем блок с персонажами
+    showSimilarWizards: function () {
+      createSimilarWizards();
+      similarBlock.classList.remove('hidden');
+    },
+    // Удаляем персонажей при закрытии окна
+    removeSimilarWizards: function () {
+      similarBlock.classList.add('hidden');
+      similarWizardsList.innerHTML = '';
+    }
+  };
+
   // Собираем массив с неповторяющимися данными для свойств персонажей
 
   var generateWizardsProperties = function (features) {
@@ -82,18 +97,5 @@
     }
 
     similarWizardsList.appendChild(fragment);
-  };
-
-  window.similar = {
-    // Показываем блок с персонажами
-    showSimilarWizards: function () {
-      createSimilarWizards();
-      similarBlock.classList.remove('hidden');
-    },
-    // Удаляем персонажей при закрытии окна
-    removeSimilarWizards: function () {
-      similarBlock.classList.add('hidden');
-      similarWizardsList.innerHTML = '';
-    }
   };
 })();
