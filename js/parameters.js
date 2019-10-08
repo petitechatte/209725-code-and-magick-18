@@ -3,37 +3,45 @@
 'use strict';
 
 (function () {
-  // Пространство имен не использовалось, чтобы не вносить изменения в исходный модуль game.js
-
   // Устанавливаем размер фаербола
-  window.fireballSize = 22;
+  var FIREBALL_SIZE = 22;
   // Устанавливаем скорость движения персонажа
-  window.wizardSpeed = 3;
+  var WIZARD_SPEED = 3;
   // Устанавливаем ширину персонажа
-  window.wizardWidth = 70;
+  var WIZARD_WIDTH = 70;
   // Устанавливаем коэффициенты пропорциональности согласно ТЗ
-  var wizardHeightMultiplier = 1.337;
-  var wizardXMultiplier = 0.5;
-  var wizardYMultiplier = 2 / 3;
+  var WIZARD_HEIGHT_MULTIPLIER = 1.337;
+  var WIZARD_X_MULTIPLIER = 0.5;
+  var WIZARD_Y_MULTIPLIER = 2 / 3;
   // Устанавливаем скорость движения фаербола
-  var downWindSpeed = 5;
-  var upWindSpeed = 2;
+  var DOWNWIND_SPEED = 5;
+  var UPWIND_SPEED = 2;
+
+  // Экспортируем переменные для модуля game.js
+  // Пространство имен не использовалось, чтобы не вносить изменения в исходный модуль game.js
+  window.fireballSize = FIREBALL_SIZE;
+  window.wizardSpeed = WIZARD_SPEED;
+  window.wizardWidth = WIZARD_WIDTH;
 
   // Определяем скорость движения фаербола с поправкой на ветер
 
   window.getFireballSpeed = function (left) {
-    return left ? downWindSpeed : upWindSpeed;
+    return left ? DOWNWIND_SPEED : UPWIND_SPEED;
   };
+
+  // Определяем высоту персонажа
 
   window.getWizardHeight = function () {
-    return wizardHeightMultiplier * window.wizardWidth;
+    return WIZARD_HEIGHT_MULTIPLIER * WIZARD_WIDTH;
   };
 
+  // Определяем исходное положение персонажа
+
   window.getWizardX = function (width) {
-    return wizardXMultiplier * width - window.wizardWidth / 2;
+    return WIZARD_X_MULTIPLIER * width - WIZARD_WIDTH / 2;
   };
 
   window.getWizardY = function (height) {
-    return height - wizardYMultiplier * height - window.getWizardHeight();
+    return height - WIZARD_Y_MULTIPLIER * height - window.getWizardHeight();
   };
 })();
