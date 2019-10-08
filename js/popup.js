@@ -144,7 +144,7 @@
 
   // Захват окна мышью
 
-  var moveButtonMouseDownHandler = function (downEvt) {
+  var moveButtonMousedownHandler = function (downEvt) {
     downEvt.preventDefault();
     // Получаем начальные координаты мыши
     var mouseCoordinates = window.utils.getMouseCoordinates(downEvt);
@@ -152,7 +152,7 @@
 
     // Перемещение мыши
 
-    var moveButtonMouseMoveHandler = function (moveEvt) {
+    var moveButtonMousemoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       // Объявляем перемещение
@@ -174,7 +174,7 @@
 
     // Отпускаем окно
 
-    var moveButtonMouseUpHandler = function (upEvt) {
+    var moveButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
       // Отделяем перемещение от клика
@@ -189,15 +189,15 @@
 
       // Снимаем обработчики перемещения и отпускания мыши
 
-      document.removeEventListener('mousemove', moveButtonMouseMoveHandler);
-      document.removeEventListener('mouseup', moveButtonMouseUpHandler);
+      document.removeEventListener('mousemove', moveButtonMousemoveHandler);
+      document.removeEventListener('mouseup', moveButtonMouseupHandler);
     };
 
     // Добавляем обработчики перемещения и отпускания мыши
-    document.addEventListener('mousemove', moveButtonMouseMoveHandler);
-    document.addEventListener('mouseup', moveButtonMouseUpHandler);
+    document.addEventListener('mousemove', moveButtonMousemoveHandler);
+    document.addEventListener('mouseup', moveButtonMouseupHandler);
   };
 
   // Добавляем обработчик захвата окна мышью
-  buttonUpload.addEventListener('mousedown', moveButtonMouseDownHandler);
+  buttonUpload.addEventListener('mousedown', moveButtonMousedownHandler);
 })();
