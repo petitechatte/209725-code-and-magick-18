@@ -1,8 +1,8 @@
+// Вспомогательный модуль
+
 'use strict';
 
 (function () {
-  // Вспомогательный модуль
-
   window.util = {
     // Находим диалоговое окно настройки
     setupWindow: document.querySelector('.setup'),
