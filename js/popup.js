@@ -9,6 +9,9 @@
 
   var FOCUS_SHADOW = '0 0 10px #fff000'; // имитация фокуса для псевдокнопок
 
+  var dragged = false; // флаг перемещения
+  var mouseCoordinates; // координаты мыши в момент перемещения окна
+
   // Находим элементы DOM
   var buttonSetupOpen = document.querySelector('.setup-open');
   var avatar = buttonSetupOpen.querySelector('.setup-open-icon');
@@ -142,56 +145,58 @@
 
   // Перемещение окна
 
+  // Перемещение мыши
+
+  var moveButtonMousemoveHandler = function (evt) {
+    evt.preventDefault();
+
+    // Объявляем перемещение
+    dragged = true;
+
+    // Рассчитываем смещение мыши
+    var shift = {
+      x: mouseCoordinates.x - evt.clientX,
+      y: mouseCoordinates.y - evt.clientY
+    };
+
+    // Обновляем текущие координаты
+    mouseCoordinates = window.utils.getMouseCoordinates(evt);
+
+    // Перемещаем окно
+    window.utils.setupWindow.style.left = String(window.utils.setupWindow.offsetLeft - shift.x) + 'px';
+    window.utils.setupWindow.style.top = String(window.utils.setupWindow.offsetTop - shift.y) + 'px';
+  };
+
+  // Отделяем перемещение от клика
+
+  var buttonDraggedClickHandler = function (evt) {
+    evt.preventDefault();
+    buttonUpload.removeEventListener('click', buttonDraggedClickHandler);
+  };
+
+  // Отпускаем окно
+
+  var moveButtonMouseupHandler = function (evt) {
+    evt.preventDefault();
+
+    if (dragged) {
+      buttonUpload.addEventListener('click', buttonDraggedClickHandler);
+    }
+
+    // Снимаем флаг перемещения
+    dragged = false;
+
+    // Снимаем обработчики перемещения и отпускания мыши
+    document.removeEventListener('mousemove', moveButtonMousemoveHandler);
+    document.removeEventListener('mouseup', moveButtonMouseupHandler);
+  };
+
   // Захват окна мышью
 
-  var moveButtonMousedownHandler = function (downEvt) {
-    downEvt.preventDefault();
+  var moveButtonMousedownHandler = function (evt) {
+    evt.preventDefault();
     // Получаем начальные координаты мыши
-    var mouseCoordinates = window.utils.getMouseCoordinates(downEvt);
-    var dragged = false; // флаг перемещения
-
-    // Перемещение мыши
-
-    var moveButtonMousemoveHandler = function (moveEvt) {
-      moveEvt.preventDefault();
-
-      // Объявляем перемещение
-      dragged = true;
-
-      // Рассчитываем смещение мыши
-      var shift = {
-        x: mouseCoordinates.x - moveEvt.clientX,
-        y: mouseCoordinates.y - moveEvt.clientY
-      };
-
-      // Обновляем текущие координаты
-      mouseCoordinates = window.utils.getMouseCoordinates(moveEvt);
-
-      // Перемещаем окно
-      window.utils.setupWindow.style.left = String(window.utils.setupWindow.offsetLeft - shift.x) + 'px';
-      window.utils.setupWindow.style.top = String(window.utils.setupWindow.offsetTop - shift.y) + 'px';
-    };
-
-    // Отпускаем окно
-
-    var moveButtonMouseupHandler = function (upEvt) {
-      upEvt.preventDefault();
-
-      // Отделяем перемещение от клика
-      var buttonDraggedClickHandler = function (evt) {
-        evt.preventDefault();
-        buttonUpload.removeEventListener('click', buttonDraggedClickHandler);
-      };
-
-      if (dragged) {
-        buttonUpload.addEventListener('click', buttonDraggedClickHandler);
-      }
-
-      // Снимаем обработчики перемещения и отпускания мыши
-
-      document.removeEventListener('mousemove', moveButtonMousemoveHandler);
-      document.removeEventListener('mouseup', moveButtonMouseupHandler);
-    };
+    mouseCoordinates = window.utils.getMouseCoordinates(evt);
 
     // Добавляем обработчики перемещения и отпускания мыши
     document.addEventListener('mousemove', moveButtonMousemoveHandler);
