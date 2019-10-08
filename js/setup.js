@@ -10,21 +10,21 @@
   };
 
   // Находим элементы DOM
-  var heroCoat = window.util.setupWindow.querySelector('.wizard-coat');
-  var heroEyes = window.util.setupWindow.querySelector('.wizard-eyes');
-  var fireball = window.util.setupWindow.querySelector('.setup-fireball-wrap');
-  var heroCoatInput = window.util.setupWindow.querySelector('input[name="coat-color"]');
-  var heroEyesInput = window.util.setupWindow.querySelector('input[name="eyes-color"]');
-  var fireballInput = window.util.setupWindow.querySelector('input[name="fireball-color"]');
+  var heroCoat = window.utils.setupWindow.querySelector('.wizard-coat');
+  var heroEyes = window.utils.setupWindow.querySelector('.wizard-eyes');
+  var fireball = window.utils.setupWindow.querySelector('.setup-fireball-wrap');
+  var heroCoatInput = window.utils.setupWindow.querySelector('input[name="coat-color"]');
+  var heroEyesInput = window.utils.setupWindow.querySelector('input[name="eyes-color"]');
+  var fireballInput = window.utils.setupWindow.querySelector('input[name="fireball-color"]');
 
   // Меняем по клику цвет для выбранного элемента персонажа
 
   var changeHeroColor = function (element, input, properties) {
     element.addEventListener('click', function () {
       if (element.tagName === 'DIV') {
-        element.style.background = window.util.changeValue(input, properties);
+        element.style.background = window.utils.changeValue(input, properties);
       } else {
-        element.style.fill = window.util.changeValue(input, properties);
+        element.style.fill = window.utils.changeValue(input, properties);
       }
     });
   };

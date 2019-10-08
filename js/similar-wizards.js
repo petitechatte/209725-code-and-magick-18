@@ -11,7 +11,7 @@
 
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
   var similarBlock = document.querySelector('.setup-similar');
-  var similarWizardsList = window.util.setupWindow.querySelector('.setup-similar-list');
+  var similarWizardsList = window.utils.setupWindow.querySelector('.setup-similar-list');
 
   // Экспортируем функции для модуля работы диалогового окна
 
@@ -35,7 +35,7 @@
     var chosenProperties = [];
 
     while (chosenProperties.length < WIZARDS_NUMBER) {
-      randomProperty = window.util.getRandomValue(features);
+      randomProperty = window.utils.getRandomValue(features);
 
       if (chosenProperties.indexOf(randomProperty) === -1) {
         chosenProperties.push(randomProperty);

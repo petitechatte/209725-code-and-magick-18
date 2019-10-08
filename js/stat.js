@@ -69,7 +69,7 @@
   // Построение диаграммы результатов игры
 
   var renderGraph = function (ctx, names, times) {
-    var maxTime = window.util.getMaxValue(times);
+    var maxTime = window.utils.getMaxValue(times);
     var barHeight;
     var barTopMargin;
     var barLeftMargin;

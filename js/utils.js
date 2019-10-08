@@ -3,7 +3,7 @@
 'use strict';
 
 (function () {
-  window.util = {
+  window.utils = {
     // Находим диалоговое окно настройки
     setupWindow: document.querySelector('.setup'),
 

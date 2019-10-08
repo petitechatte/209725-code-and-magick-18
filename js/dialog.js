@@ -12,17 +12,17 @@
   // Находим элементы DOM
   var buttonSetupOpen = document.querySelector('.setup-open');
   var avatar = buttonSetupOpen.querySelector('.setup-open-icon');
-  var buttonSetupClose = window.util.setupWindow.querySelector('.setup-close');
-  var buttonUpload = window.util.setupWindow.querySelector('.upload');
+  var buttonSetupClose = window.utils.setupWindow.querySelector('.setup-close');
+  var buttonUpload = window.utils.setupWindow.querySelector('.upload');
   var setupAvatar = buttonUpload.querySelector('.setup-user-pic');
   var uploadInput = buttonUpload.querySelector('input[name="avatar"]');
-  var userName = window.util.setupWindow.querySelector('.setup-user-name');
+  var userName = window.utils.setupWindow.querySelector('.setup-user-name');
 
   // Получаем исходное положение окна
 
   var startSetupCoordinates = {
-    x: window.util.setupWindow.style.left,
-    y: window.util.setupWindow.style.top
+    x: window.utils.setupWindow.style.left,
+    y: window.utils.setupWindow.style.top
   };
 
   // Обработчик нажатия клавиши Esc с учетом фокуса в поле ввода
@@ -55,7 +55,7 @@
 
   var closeSetupWindow = function () {
     // Скрываем окно
-    window.util.setupWindow.classList.add('hidden');
+    window.utils.setupWindow.classList.add('hidden');
     // Удаляем сгенерированных персонажей
     window.similarWizards.removeSimilarWizards();
     // Убираем обработчик нажатия Esc
@@ -67,8 +67,8 @@
     // Возвращаем кнопку в порядок фокуса
     buttonSetupOpen.tabIndex = '0';
     // Возвращаем исходные координаы окна
-    window.util.setupWindow.style.left = startSetupCoordinates.x;
-    window.util.setupWindow.style.top = startSetupCoordinates.y;
+    window.utils.setupWindow.style.left = startSetupCoordinates.x;
+    window.utils.setupWindow.style.top = startSetupCoordinates.y;
   };
 
   // Добавляем обработчики на кнопку закрытия окна
@@ -85,7 +85,7 @@
     // Генерируем новых случайных персонажей
     window.similarWizards.showSimilarWizards();
     // Показываем окно
-    window.util.setupWindow.classList.remove('hidden');
+    window.utils.setupWindow.classList.remove('hidden');
     // Добавляем временный обработчик нажатия Esc
     document.addEventListener('keydown', escKeydownHandler);
     // Удаляем обработчики c кнопки открытия
@@ -147,7 +147,7 @@
   var moveButtonMouseDownHandler = function (downEvt) {
     downEvt.preventDefault();
     // Получаем начальные координаты мыши
-    var mouseCoordinates = window.util.getMouseCoordinates(downEvt);
+    var mouseCoordinates = window.utils.getMouseCoordinates(downEvt);
     var dragged = false; // флаг перемещения
 
     // Перемещение мыши
@@ -165,11 +165,11 @@
       };
 
       // Обновляем текущие координаты
-      mouseCoordinates = window.util.getMouseCoordinates(moveEvt);
+      mouseCoordinates = window.utils.getMouseCoordinates(moveEvt);
 
       // Перемещаем окно
-      window.util.setupWindow.style.left = String(window.util.setupWindow.offsetLeft - shift.x) + 'px';
-      window.util.setupWindow.style.top = String(window.util.setupWindow.offsetTop - shift.y) + 'px';
+      window.utils.setupWindow.style.left = String(window.utils.setupWindow.offsetLeft - shift.x) + 'px';
+      window.utils.setupWindow.style.top = String(window.utils.setupWindow.offsetTop - shift.y) + 'px';
     };
 
     // Отпускаем окно
