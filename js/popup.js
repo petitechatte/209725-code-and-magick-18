@@ -16,6 +16,7 @@
   var buttonSetupOpen = document.querySelector('.setup-open');
   var avatar = buttonSetupOpen.querySelector('.setup-open-icon');
   var buttonSetupClose = window.utils.setupWindow.querySelector('.setup-close');
+  var setupForm = window.utils.setupWindow.querySelector('.setup-wizard-form');
   var buttonUpload = window.utils.setupWindow.querySelector('.upload');
   var setupAvatar = buttonUpload.querySelector('.setup-user-pic');
   var uploadInput = buttonUpload.querySelector('input[name="avatar"]');
@@ -205,4 +206,16 @@
 
   // Добавляем обработчик захвата окна мышью
   buttonUpload.addEventListener('mousedown', moveButtonMousedownHandler);
+
+  // Отправляем форму
+
+  var finishFormUpload = function (response) {
+    closeSetupWindow();
+    return response;
+  };
+
+  setupForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupForm), finishFormUpload, function () {});
+  });
 })();
