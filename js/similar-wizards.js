@@ -4,7 +4,6 @@
 
 (function () {
   var WIZARDS_NUMBER = 4; // число похожих персонажей в диалоговом окне настройки
-  var URL = 'https://js.dump.academy/code-and-magick/data'; // адрес запроса данных магов
 
   // Находим в разметке шаблон для персонажей и блок для их размещения
 
@@ -17,11 +16,7 @@
   window.similarWizards = {
     // Показываем блок с персонажами
     showSimilarWizards: function () {
-      // Тренируемся с JSONP
-      var script = document.createElement('script');
-      script.src = URL + '?callback=' + 'createSimilarWizards';
-      document.body.appendChild(script);
-      // createSimilarWizards();
+      window.backend.load(createSimilarWizards);
       similarBlock.classList.remove('hidden');
     },
     // Удаляем персонажей при закрытии окна
@@ -48,7 +43,7 @@
 
   // Добавляем персонажей на страницу
 
-  window.createSimilarWizards = function (wizardsData) {
+  var createSimilarWizards = function (wizardsData) {
     var fragment = document.createDocumentFragment();
     var wizards = window.utils.selectData(wizardsData, WIZARDS_NUMBER);
     var newWizard;
