@@ -57,8 +57,8 @@
     var wizardEyes = wizard.querySelector('.wizard-eyes');
 
     wizardName.textContent = character.name;
-    wizardCoat.style.fill = character.coatColor;
-    wizardEyes.style.fill = character.eyesColor;
+    wizardCoat.style.fill = character.colorCoat;
+    wizardEyes.style.fill = character.colorEyes;
 
     return wizard;
   };
