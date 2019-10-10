@@ -3,9 +3,8 @@
 'use strict';
 
 (function () {
-  var FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  var LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-  var WIZARDS_NUMBER = 4; // Число похожих персонажей в диалоговом окне настройки
+  var WIZARDS_NUMBER = 4; // число похожих персонажей в диалоговом окне настройки
+  var URL = 'https://js.dump.academy/code-and-magick/data'; // адрес запроса данных магов
 
   // Находим в разметке шаблон для персонажей и блок для их размещения
 
@@ -18,7 +17,11 @@
   window.similarWizards = {
     // Показываем блок с персонажами
     showSimilarWizards: function () {
-      createSimilarWizards();
+      // Тренируемся с JSONP
+      var script = document.createElement('script');
+      script.src = URL + '?callback=' + 'createSimilarWizards';
+      document.body.appendChild(script);
+      // createSimilarWizards();
       similarBlock.classList.remove('hidden');
     },
     // Удаляем персонажей при закрытии окна
@@ -30,43 +33,20 @@
 
   // Собираем массив с неповторяющимися данными для свойств персонажей
 
-  var generateWizardsProperties = function (features) {
-    var randomProperty = '';
-    var chosenProperties = [];
+  // var generateWizardsProperties = function (features) {
+  //   var randomProperty = '';
+  //   var chosenProperties = [];
 
-    while (chosenProperties.length < WIZARDS_NUMBER) {
-      randomProperty = window.utils.getRandomValue(features);
+  //   while (chosenProperties.length < WIZARDS_NUMBER) {
+  //     randomProperty = window.utils.getRandomValue(features);
 
-      if (chosenProperties.indexOf(randomProperty) === -1) {
-        chosenProperties.push(randomProperty);
-      }
-    }
+  //     if (chosenProperties.indexOf(randomProperty) === -1) {
+  //       chosenProperties.push(randomProperty);
+  //     }
+  //   }
 
-    return chosenProperties;
-  };
-
-  // Собираем массив объектов, описывающих персонажей
-
-  var generateWizards = function () {
-    var firstNames = generateWizardsProperties(FIRST_NAMES);
-    var lastNames = generateWizardsProperties(LAST_NAMES);
-    var coatColors = generateWizardsProperties(window.settings.COAT_COLORS);
-    var eyesColors = generateWizardsProperties(window.settings.EYES_COLORS);
-    var wizardsList = [];
-    var currentWizard = {};
-
-    for (var i = 0; i < WIZARDS_NUMBER; i++) {
-      currentWizard = {
-        name: firstNames[i] + ' ' + lastNames[i],
-        coatColor: coatColors[i],
-        eyesColor: eyesColors[i]
-      };
-
-      wizardsList.push(currentWizard);
-    }
-
-    return wizardsList;
-  };
+  //   return chosenProperties;
+  // };
 
   // Создаем разметку для одного персонажа
 
@@ -85,11 +65,9 @@
 
   // Добавляем персонажей на страницу
 
-  var createSimilarWizards = function () {
+  window.createSimilarWizards = function (wizards) {
     var fragment = document.createDocumentFragment();
     var newWizard;
-
-    var wizards = generateWizards();
 
     for (var i = 0; i < WIZARDS_NUMBER; i++) {
       newWizard = renderWizard(wizards[i]);
