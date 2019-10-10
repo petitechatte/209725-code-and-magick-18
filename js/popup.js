@@ -7,6 +7,14 @@
   var ESC_KEY_CODE = 27;
   var ENTER_KEY_CODE = 13;
 
+  // Параметры сообщения об ошибке
+  var UPLOAD_ERROR_HEADING = 'Форма не отправлена!';
+  var UPOLOAD_ERROR_POSITION = 'absolute';
+  var UPLOAD_ERROR_TOP = 50;
+  var UPLOAD_ERROR_MARGIN = 50;
+  var UPLOAD_ERROR_BORDER = '5px solid red';
+  var UPLOAD_ERROR_LIFETIME = 3000;
+
   var FOCUS_SHADOW = '0 0 10px #fff000'; // имитация фокуса для псевдокнопок
 
   var dragged = false; // флаг перемещения
@@ -217,35 +225,25 @@
 
   // Сообщаем об ошибке отправки формы
   var showUploadErrorMessage = function (errorMessage) {
-    // Стилизуем блок сообщения об ошибке
-    var uploadErrorNode = document.createElement('div');
-    uploadErrorNode.style.position = 'absolute';
-    uploadErrorNode.style.top = '50%';
-    uploadErrorNode.style.left = '50px';
-    uploadErrorNode.style.right = '50px';
-    uploadErrorNode.style.height = '150px';
-    uploadErrorNode.style.padding = '50px';
-    uploadErrorNode.style.border = '5px solid red';
-    uploadErrorNode.style.background = 'white';
-    uploadErrorNode.style.color = 'black';
-    uploadErrorNode.style.fontWeight = 'bold';
-    uploadErrorNode.style.textAlign = 'center';
-    uploadErrorNode.innerHTML = '<h3></h3>' + errorMessage + '<p><button type="button"></button></p>';
+    // Создаем базовое сообщение
+    var uploadErrorNode = window.utils.createMessage(UPLOAD_ERROR_HEADING, errorMessage);
 
-    // Добавляем заголовок
-    var errorHeading = uploadErrorNode.querySelector('h3');
-    errorHeading.style.color = 'red';
-    errorHeading.textContent = 'Форма не отправлена!';
+    // Дополнительно стилизуем
+    uploadErrorNode.style.position = UPOLOAD_ERROR_POSITION;
+    uploadErrorNode.style.top = String(UPLOAD_ERROR_TOP) + '%';
+    uploadErrorNode.style.left = String(UPLOAD_ERROR_MARGIN) + 'px';
+    uploadErrorNode.style.right = String(UPLOAD_ERROR_MARGIN) + 'px';
+    uploadErrorNode.style.border = UPLOAD_ERROR_BORDER;
 
     // Выводим сообщение
     window.utils.setupWindow.appendChild(uploadErrorNode);
 
-    // Удаляем сообщение через 5 секунд
+    // Удаляем сообщение автоматически
     var deleteErrorMessage = function () {
       uploadErrorNode.remove();
     };
 
-    setTimeout(deleteErrorMessage, 3000);
+    setTimeout(deleteErrorMessage, UPLOAD_ERROR_LIFETIME);
   };
 
   setupForm.addEventListener('submit', function (evt) {

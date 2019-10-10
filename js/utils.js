@@ -3,9 +3,38 @@
 'use strict';
 
 (function () {
+  // Базовые параметры сообщения об ошибке
+  var ERROR_MESSAGE_HEIGHT = 150;
+  var ERROR_MESSAGE_PADDING = 20;
+  var ERROR_MESSAGE_BACKGROUND = 'white';
+  var ERROR_MESSAGE_TEXT_COLOR = 'black';
+  var ERROR_MESSAGE_HEADING_COLOR = 'red';
+  var ERROR_MESSAGE_FONT_WEIGHT = 'bold';
+  var ERROR_MESSAGE_TEXT_ALIGN = 'center';
+
   window.utils = {
     // Находим диалоговое окно настройки
     setupWindow: document.querySelector('.setup'),
+
+    // Создаем окно сообщения об ошибке
+    createMessage: function (heading, errorMessage) {
+      // Стилизуем блок сообщения об ошибке
+      var errorNode = document.createElement('div');
+      errorNode.style.height = String(ERROR_MESSAGE_HEIGHT) + 'px';
+      errorNode.style.padding = String(ERROR_MESSAGE_PADDING) + 'px';
+      errorNode.style.background = ERROR_MESSAGE_BACKGROUND;
+      errorNode.style.color = ERROR_MESSAGE_TEXT_COLOR;
+      errorNode.style.fontWeight = ERROR_MESSAGE_FONT_WEIGHT;
+      errorNode.style.textAlign = ERROR_MESSAGE_TEXT_ALIGN;
+      errorNode.innerHTML = '<h3></h3>' + errorMessage;
+
+      // Добавляем заголовок
+      var errorHeading = errorNode.querySelector('h3');
+      errorHeading.style.color = ERROR_MESSAGE_HEADING_COLOR;
+      errorHeading.textContent = heading;
+
+      return errorNode;
+    },
 
     // Получаем случайное значение из массива
     getRandomValue: function (features) {
