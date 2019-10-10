@@ -223,7 +223,7 @@
     uploadErrorNode.style.top = '50%';
     uploadErrorNode.style.left = '50px';
     uploadErrorNode.style.right = '50px';
-    uploadErrorNode.style.height = '200px';
+    uploadErrorNode.style.height = '150px';
     uploadErrorNode.style.padding = '50px';
     uploadErrorNode.style.border = '5px solid red';
     uploadErrorNode.style.background = 'white';
@@ -239,6 +239,13 @@
 
     // Выводим сообщение
     window.utils.setupWindow.appendChild(uploadErrorNode);
+
+    // Удаляем сообщение через 5 секунд
+    var deleteErrorMessage = function () {
+      uploadErrorNode.remove();
+    };
+
+    setTimeout(deleteErrorMessage, 3000);
   };
 
   setupForm.addEventListener('submit', function (evt) {
