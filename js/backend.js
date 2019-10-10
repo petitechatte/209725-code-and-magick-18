@@ -5,6 +5,8 @@
 (function () {
   // Адрес сервера данных
   var URL = 'https://js.dump.academy/code-and-magick/data';
+  // Ожидаемое время загрузки данных
+  var TIMEOUT_LIMIT = 4000;
   // Ожидаемые статусы HTTP-ответа
   var OK_STATUS = 200;
   var WRONG_REQUEST_STATUS = 400;
@@ -40,6 +42,16 @@
             onError('Статус ответа: ' + String(xhr.status) + ' ' + xhr.statusText);
         }
       });
+
+      xhr.addEventListener('error', function () {
+        onError('Произошла ошибка соединения');
+      });
+
+      xhr.addEventListener('timeout', function () {
+        onError('Запрос не успел выполниться за ' + String(xhr.timeout) + ' мс');
+      });
+
+      xhr.timeout = TIMEOUT_LIMIT;
 
       xhr.send();
     },
