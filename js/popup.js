@@ -211,11 +211,38 @@
 
   var finishFormUpload = function (response) {
     closeSetupWindow();
+    // В теории данные должны использоваться для изменения игрового персонажа
     return response;
+  };
+
+  // Сообщаем об ошибке отправки формы
+  var showUploadErrorMessage = function (errorMessage) {
+    // Стилизуем блок сообщения об ошибке
+    var uploadErrorNode = document.createElement('div');
+    uploadErrorNode.style.position = 'absolute';
+    uploadErrorNode.style.top = '50%';
+    uploadErrorNode.style.left = '50px';
+    uploadErrorNode.style.right = '50px';
+    uploadErrorNode.style.height = '200px';
+    uploadErrorNode.style.padding = '50px';
+    uploadErrorNode.style.border = '5px solid red';
+    uploadErrorNode.style.background = 'white';
+    uploadErrorNode.style.color = 'black';
+    uploadErrorNode.style.fontWeight = 'bold';
+    uploadErrorNode.style.textAlign = 'center';
+    uploadErrorNode.innerHTML = '<h3></h3>' + errorMessage + '<p><button type="button"></button></p>';
+
+    // Добавляем заголовок
+    var errorHeading = uploadErrorNode.querySelector('h3');
+    errorHeading.style.color = 'red';
+    errorHeading.textContent = 'Форма не отправлена!';
+
+    // Выводим сообщение
+    window.utils.setupWindow.appendChild(uploadErrorNode);
   };
 
   setupForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(setupForm), finishFormUpload, function () {});
+    window.backend.save(new FormData(setupForm), finishFormUpload, showUploadErrorMessage);
   });
 })();
