@@ -6,7 +6,7 @@
   // Число похожих персонажей в диалоговом окне настройки
   var WIZARDS_NUMBER = 4;
   // Параметры сообщения об ошибке
-  var ERROR_MESSAGE_HEADING = 'Хьюстон, у нас проблемы!'
+  var ERROR_MESSAGE_HEADING = 'Хьюстон, у нас проблемы!';
   var ERROR_MESSAGE_WIDTH = 100;
   var ERROR_MESSAGE_HEIGHT = 100;
   var ERROR_MESSAGE_PADDING = 20;
