@@ -46,28 +46,11 @@
     return wizard;
   };
 
-  // Собираем массив случайных волшебников
-
-  var selectData = function (data, elementsNumber) {
-    var selectedElements = [];
-    var element;
-
-    while (selectedElements.length < elementsNumber) {
-      element = window.utils.getRandomValue(data);
-
-      if (selectedElements.indexOf(element) === -1) {
-        selectedElements.push(element);
-      }
-    }
-
-    return selectedElements;
-  };
-
   // Добавляем персонажей на страницу
 
   window.createSimilarWizards = function (wizardsData) {
     var fragment = document.createDocumentFragment();
-    var wizards = selectData(wizardsData, WIZARDS_NUMBER);
+    var wizards = window.utils.selectData(wizardsData, WIZARDS_NUMBER);
     var newWizard;
 
     for (var i = 0; i < WIZARDS_NUMBER; i++) {

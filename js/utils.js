@@ -23,6 +23,23 @@
       return maxValue;
     },
 
+    // Выбираем элементы для массива заданной длины из другого массива
+
+    selectData: function (data, elementsNumber) {
+      var selectedElements = [];
+      var element;
+
+      while (selectedElements.length < elementsNumber) {
+        element = window.utils.getRandomValue(data);
+
+        if (selectedElements.indexOf(element) === -1) {
+          selectedElements.push(element);
+        }
+      }
+
+      return selectedElements;
+    },
+
     // Изменение параметров персонажа
     changeValue: function (input, properties) {
       var currentValue = input.value;
