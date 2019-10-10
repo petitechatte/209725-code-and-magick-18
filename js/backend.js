@@ -3,8 +3,8 @@
 'use strict';
 
 (function () {
-  // Адрес сервера данных
-  var URL = 'https://js.dump.academy/code-and-magick/data';
+  var URL = 'https://js.dump.academy/code-and-magick/data'; // адрес сервера данных
+  var OK_STATUS = 200; // ожидаемый ответ сервера
 
   window.backend = {
     // Получение данных с сервера
@@ -14,7 +14,11 @@
       xhr.open('GET', URL);
 
       xhr.addEventListener('load', function () {
-        onLoad(xhr.response);
+        if (xhr.status === OK_STATUS) {
+          onLoad(xhr.response);
+        } else {
+          onError('Статус ответа: ' + String(xhr.status) + ' ' + xhr.statusText);
+        }
       });
 
       xhr.send();
@@ -24,6 +28,4 @@
 
     }
   };
-
-  //
 })();
