@@ -31,23 +31,6 @@
     }
   };
 
-  // Собираем массив с неповторяющимися данными для свойств персонажей
-
-  // var generateWizardsProperties = function (features) {
-  //   var randomProperty = '';
-  //   var chosenProperties = [];
-
-  //   while (chosenProperties.length < WIZARDS_NUMBER) {
-  //     randomProperty = window.utils.getRandomValue(features);
-
-  //     if (chosenProperties.indexOf(randomProperty) === -1) {
-  //       chosenProperties.push(randomProperty);
-  //     }
-  //   }
-
-  //   return chosenProperties;
-  // };
-
   // Создаем разметку для одного персонажа
 
   var renderWizard = function (character) {
@@ -63,10 +46,28 @@
     return wizard;
   };
 
+  // Собираем массив случайных волшебников
+
+  var selectData = function (data, elementsNumber) {
+    var selectedElements = [];
+    var element;
+
+    while (selectedElements.length < elementsNumber) {
+      element = window.utils.getRandomValue(data);
+
+      if (selectedElements.indexOf(element) === -1) {
+        selectedElements.push(element);
+      }
+    }
+
+    return selectedElements;
+  };
+
   // Добавляем персонажей на страницу
 
-  window.createSimilarWizards = function (wizards) {
+  window.createSimilarWizards = function (wizardsData) {
     var fragment = document.createDocumentFragment();
+    var wizards = selectData(wizardsData, WIZARDS_NUMBER);
     var newWizard;
 
     for (var i = 0; i < WIZARDS_NUMBER; i++) {
