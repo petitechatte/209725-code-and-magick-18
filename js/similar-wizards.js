@@ -49,11 +49,11 @@
 
   var createSimilarWizards = function (wizardsData) {
     var fragment = document.createDocumentFragment();
+    var newWizard;
 
     // Используем try для защиты от некорректных данных с сервера
     try {
       var wizards = window.utils.selectData(wizardsData, WIZARDS_NUMBER);
-      var newWizard;
 
       for (var i = 0; i < WIZARDS_NUMBER; i++) {
         newWizard = renderWizard(wizards[i]);
