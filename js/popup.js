@@ -7,6 +7,14 @@
   var ESC_KEY_CODE = 27;
   var ENTER_KEY_CODE = 13;
 
+  // Параметры сообщения об ошибке
+  var UPLOAD_ERROR_HEADING = 'Форма не отправлена!';
+  var UPOLOAD_ERROR_POSITION = 'absolute';
+  var UPLOAD_ERROR_TOP = 50;
+  var UPLOAD_ERROR_MARGIN = 50;
+  var UPLOAD_ERROR_BORDER = '5px solid red';
+  var UPLOAD_ERROR_LIFETIME = 3000;
+
   var FOCUS_SHADOW = '0 0 10px #fff000'; // имитация фокуса для псевдокнопок
 
   var dragged = false; // флаг перемещения
@@ -16,6 +24,7 @@
   var buttonSetupOpen = document.querySelector('.setup-open');
   var avatar = buttonSetupOpen.querySelector('.setup-open-icon');
   var buttonSetupClose = window.utils.setupWindow.querySelector('.setup-close');
+  var setupForm = window.utils.setupWindow.querySelector('.setup-wizard-form');
   var buttonUpload = window.utils.setupWindow.querySelector('.upload');
   var setupAvatar = buttonUpload.querySelector('.setup-user-pic');
   var uploadInput = buttonUpload.querySelector('input[name="avatar"]');
@@ -205,4 +214,40 @@
 
   // Добавляем обработчик захвата окна мышью
   buttonUpload.addEventListener('mousedown', moveButtonMousedownHandler);
+
+  // Отправляем форму
+
+  var finishFormUpload = function (response) {
+    closeSetupWindow();
+    // В теории данные должны использоваться для изменения игрового персонажа
+    return response;
+  };
+
+  // Сообщаем об ошибке отправки формы
+  var showUploadErrorMessage = function (errorMessage) {
+    // Создаем базовое сообщение
+    var uploadErrorNode = window.utils.createMessage(UPLOAD_ERROR_HEADING, errorMessage);
+
+    // Дополнительно стилизуем
+    uploadErrorNode.style.position = UPOLOAD_ERROR_POSITION;
+    uploadErrorNode.style.top = String(UPLOAD_ERROR_TOP) + '%';
+    uploadErrorNode.style.left = String(UPLOAD_ERROR_MARGIN) + 'px';
+    uploadErrorNode.style.right = String(UPLOAD_ERROR_MARGIN) + 'px';
+    uploadErrorNode.style.border = UPLOAD_ERROR_BORDER;
+
+    // Выводим сообщение
+    window.utils.setupWindow.appendChild(uploadErrorNode);
+
+    // Удаляем сообщение автоматически
+    var deleteErrorMessage = function () {
+      uploadErrorNode.remove();
+    };
+
+    setTimeout(deleteErrorMessage, UPLOAD_ERROR_LIFETIME);
+  };
+
+  setupForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupForm), finishFormUpload, showUploadErrorMessage);
+  });
 })();

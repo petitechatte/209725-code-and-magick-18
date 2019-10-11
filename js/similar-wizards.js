@@ -3,9 +3,11 @@
 'use strict';
 
 (function () {
-  var FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  var LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-  var WIZARDS_NUMBER = 4; // Число похожих персонажей в диалоговом окне настройки
+  // Число похожих персонажей в диалоговом окне настройки
+  var WIZARDS_NUMBER = 4;
+  // Параметры сообщения об ошибке
+  var ERROR_MESSAGE_HEADING = 'Хьюстон, у нас проблемы!';
+  var ERROR_MESSAGE_WIDTH = 100;
 
   // Находим в разметке шаблон для персонажей и блок для их размещения
 
@@ -18,7 +20,7 @@
   window.similarWizards = {
     // Показываем блок с персонажами
     showSimilarWizards: function () {
-      createSimilarWizards();
+      window.backend.load(createSimilarWizards, showErrorMessage);
       similarBlock.classList.remove('hidden');
     },
     // Удаляем персонажей при закрытии окна
@@ -26,46 +28,6 @@
       similarBlock.classList.add('hidden');
       similarWizardsList.innerHTML = '';
     }
-  };
-
-  // Собираем массив с неповторяющимися данными для свойств персонажей
-
-  var generateWizardsProperties = function (features) {
-    var randomProperty = '';
-    var chosenProperties = [];
-
-    while (chosenProperties.length < WIZARDS_NUMBER) {
-      randomProperty = window.utils.getRandomValue(features);
-
-      if (chosenProperties.indexOf(randomProperty) === -1) {
-        chosenProperties.push(randomProperty);
-      }
-    }
-
-    return chosenProperties;
-  };
-
-  // Собираем массив объектов, описывающих персонажей
-
-  var generateWizards = function () {
-    var firstNames = generateWizardsProperties(FIRST_NAMES);
-    var lastNames = generateWizardsProperties(LAST_NAMES);
-    var coatColors = generateWizardsProperties(window.settings.COAT_COLORS);
-    var eyesColors = generateWizardsProperties(window.settings.EYES_COLORS);
-    var wizardsList = [];
-    var currentWizard = {};
-
-    for (var i = 0; i < WIZARDS_NUMBER; i++) {
-      currentWizard = {
-        name: firstNames[i] + ' ' + lastNames[i],
-        coatColor: coatColors[i],
-        eyesColor: eyesColors[i]
-      };
-
-      wizardsList.push(currentWizard);
-    }
-
-    return wizardsList;
   };
 
   // Создаем разметку для одного персонажа
@@ -77,25 +39,42 @@
     var wizardEyes = wizard.querySelector('.wizard-eyes');
 
     wizardName.textContent = character.name;
-    wizardCoat.style.fill = character.coatColor;
-    wizardEyes.style.fill = character.eyesColor;
+    wizardCoat.style.fill = character.colorCoat;
+    wizardEyes.style.fill = character.colorEyes;
 
     return wizard;
   };
 
   // Добавляем персонажей на страницу
 
-  var createSimilarWizards = function () {
+  var createSimilarWizards = function (wizardsData) {
     var fragment = document.createDocumentFragment();
     var newWizard;
 
-    var wizards = generateWizards();
+    // Используем try для защиты от некорректных данных с сервера
+    try {
+      var wizards = window.utils.selectData(wizardsData, WIZARDS_NUMBER);
 
-    for (var i = 0; i < WIZARDS_NUMBER; i++) {
-      newWizard = renderWizard(wizards[i]);
-      fragment.appendChild(newWizard);
+      for (var i = 0; i < WIZARDS_NUMBER; i++) {
+        newWizard = renderWizard(wizards[i]);
+        fragment.appendChild(newWizard);
+      }
+    } catch (err) {
+      showErrorMessage(err.message);
     }
 
     similarWizardsList.appendChild(fragment);
+  };
+
+  // Сообщаем об ошибке загрузки персонажей
+  var showErrorMessage = function (errorMessage) {
+    // Создаем базовое сообщение
+    var errorNode = window.utils.createMessage(ERROR_MESSAGE_HEADING, errorMessage);
+
+    // Дополнительно стилизуем
+    errorNode.style.width = String(ERROR_MESSAGE_WIDTH) + '%';
+
+    // Выводим сообщение
+    similarWizardsList.appendChild(errorNode);
   };
 })();
