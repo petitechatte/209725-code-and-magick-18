@@ -11,6 +11,8 @@
   var ERROR_MESSAGE_HEADING_COLOR = 'red';
   var ERROR_MESSAGE_FONT_WEIGHT = 'bold';
   var ERROR_MESSAGE_TEXT_ALIGN = 'center';
+  var WRAPPER_ELEMENT = 'div';
+  var HEADING_ELEMENT = 'h3';
 
   window.utils = {
     // Находим диалоговое окно настройки
@@ -19,19 +21,20 @@
     // Создаем окно сообщения об ошибке
     createMessage: function (heading, errorMessage) {
       // Стилизуем блок сообщения об ошибке
-      var errorNode = document.createElement('div');
+      var errorNode = document.createElement(WRAPPER_ELEMENT);
       errorNode.style.height = String(ERROR_MESSAGE_HEIGHT) + 'px';
       errorNode.style.padding = String(ERROR_MESSAGE_PADDING) + 'px';
       errorNode.style.background = ERROR_MESSAGE_BACKGROUND;
       errorNode.style.color = ERROR_MESSAGE_TEXT_COLOR;
       errorNode.style.fontWeight = ERROR_MESSAGE_FONT_WEIGHT;
       errorNode.style.textAlign = ERROR_MESSAGE_TEXT_ALIGN;
-      errorNode.innerHTML = '<h3></h3>' + errorMessage;
+      errorNode.textContent = errorMessage;
 
       // Добавляем заголовок
-      var errorHeading = errorNode.querySelector('h3');
+      var errorHeading = document.createElement(HEADING_ELEMENT);
       errorHeading.style.color = ERROR_MESSAGE_HEADING_COLOR;
       errorHeading.textContent = heading;
+      errorNode.insertAdjacentElement('afterbegin', errorHeading);
 
       return errorNode;
     },
