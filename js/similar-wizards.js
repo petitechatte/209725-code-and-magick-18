@@ -21,20 +21,37 @@
   // Экспортируем функции для модуля работы диалогового окна
 
   window.similarWizards = {
-    // Показываем блок с персонажами
-    showSimilarWizards: function () {
-      similarBlock.classList.remove('hidden');
+    // Создаем персонажей
+    createSimilarWizards: function (wizardsData) {
+      var fragment = document.createDocumentFragment();
+      var newWizard;
+
+      // Используем try для защиты от некорректных данных с сервера
+      try {
+        for (var i = 0; i < WIZARDS_NUMBER; i++) {
+          newWizard = renderWizard(wizardsData[i]);
+          console.log(newWizard);
+          fragment.appendChild(newWizard);
+        }
+      } catch (err) {
+        showErrorMessage(err.message);
+      }
+
+      similarWizardsList.appendChild(fragment);
     },
-    // Удаляем персонажей при закрытии окна
+    // Удаляем персонажей
     removeSimilarWizards: function () {
-      similarBlock.classList.add('hidden');
       similarWizardsList.innerHTML = '';
-    }
+    },
+    // sortWizards: function (wizards) {
+
+    // }
   };
 
   // Создаем разметку для одного персонажа
 
   var renderWizard = function (character) {
+    console.log(character);
     var wizard = similarWizardTemplate.cloneNode(true);
     var wizardName = wizard.querySelector('.setup-similar-label');
     var wizardCoat = wizard.querySelector('.wizard-coat');
@@ -45,27 +62,6 @@
     wizardEyes.style.fill = character.colorEyes;
 
     return wizard;
-  };
-
-  // Добавляем персонажей на страницу
-
-  var createSimilarWizards = function (wizardsData) {
-    var fragment = document.createDocumentFragment();
-    var newWizard;
-
-    // Используем try для защиты от некорректных данных с сервера
-    try {
-      var wizards = wizardsData;
-
-      for (var i = 0; i < WIZARDS_NUMBER; i++) {
-        newWizard = renderWizard(wizards[i]);
-        fragment.appendChild(newWizard);
-      }
-    } catch (err) {
-      showErrorMessage(err.message);
-    }
-
-    similarWizardsList.appendChild(fragment);
   };
 
   // Сообщаем об ошибке загрузки персонажей
@@ -84,6 +80,10 @@
 
   var getWizardsData = function (data) {
     loadedData = data;
+    // Создаем похожих персонажей
+    window.similarWizards.createSimilarWizards(loadedData);
+    // Показываем блок с персонажами
+    similarBlock.classList.remove('hidden');
   };
 
   window.backend.load(getWizardsData, showErrorMessage);

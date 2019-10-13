@@ -39,8 +39,6 @@
     } else {
       element.style.fill = window.utils.changeValue(input, properties);
     }
-    getMainWizardColors();
-    console.log(currentLook);
   };
 
   // Добавляем обрабочики клика
@@ -48,6 +46,7 @@
   var makeChangeable = function (element, input, properties) {
     element.addEventListener('click', function () {
       changeColor(element, input, properties);
+      currentLook = getMainWizardColors();
     });
   };
 
