@@ -30,7 +30,6 @@
       try {
         for (var i = 0; i < WIZARDS_NUMBER; i++) {
           newWizard = renderWizard(wizardsData[i]);
-          console.log(newWizard);
           fragment.appendChild(newWizard);
         }
       } catch (err) {
@@ -43,15 +42,38 @@
     removeSimilarWizards: function () {
       similarWizardsList.innerHTML = '';
     },
-    // sortWizards: function (wizards) {
+    sortWizards: function (wizards) {
+      var mainWizardLook = window.settings.getMainWizardColors();
+      var mainWizardCoatColor = mainWizardLook.coatColor;
+      var mainWizardEyesColor = mainWizardLook.eyesColor;
 
-    // }
+      getRank(wizard);
+    }
   };
+
+  // Устанавливаем текущий рейтинг каждого загруженного персонажа
+
+  var getRank = function (wizard) {
+    var rank = 0;
+
+    // Назначаем баллы за основной критерий сходства - цвет плаща
+    if (wizard.colorCoat === mainWizardCoatColor) {
+      rank += 2;
+    }
+
+    // Назначаем дополнительные баллы за вторичный критерий сходства - цвет глаз
+    if (wizard.colorEyes === mainWizardEyesColor) {
+      rank += 1;
+    }
+
+    return rank;
+  };
+
+  window.similarWizards.sortWizards(loadedData);
 
   // Создаем разметку для одного персонажа
 
   var renderWizard = function (character) {
-    console.log(character);
     var wizard = similarWizardTemplate.cloneNode(true);
     var wizardName = wizard.querySelector('.setup-similar-label');
     var wizardCoat = wizard.querySelector('.wizard-coat');
@@ -78,7 +100,7 @@
 
   // Загружаем данные персонажей
 
-  var getWizardsData = function (data) {
+  var getWizards = function (data) {
     loadedData = data;
     // Создаем похожих персонажей
     window.similarWizards.createSimilarWizards(loadedData);
@@ -86,5 +108,5 @@
     similarBlock.classList.remove('hidden');
   };
 
-  window.backend.load(getWizardsData, showErrorMessage);
+  window.backend.load(getWizards, showErrorMessage);
 })();
