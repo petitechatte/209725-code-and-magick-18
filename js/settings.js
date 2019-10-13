@@ -19,13 +19,17 @@
 
   // Меняем по клику цвет для выбранного элемента персонажа
 
+  var changeColor = function (element, input, properties) {
+    if (element.tagName === 'DIV') {
+      element.style.background = window.utils.changeValue(input, properties);
+    } else {
+      element.style.fill = window.utils.changeValue(input, properties);
+    }
+  };
+
   var makeChangeable = function (element, input, properties) {
     element.addEventListener('click', function () {
-      if (element.tagName === 'DIV') {
-        element.style.background = window.utils.changeValue(input, properties);
-      } else {
-        element.style.fill = window.utils.changeValue(input, properties);
-      }
+      changeColor(element, input, properties);
     });
   };
 
