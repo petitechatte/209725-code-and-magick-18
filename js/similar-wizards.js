@@ -15,12 +15,14 @@
   var similarBlock = document.querySelector('.setup-similar');
   var similarWizardsList = window.utils.setupWindow.querySelector('.setup-similar-list');
 
+  // Создаем переменную для хранения данных с сервера
+  var loadedData = [];
+
   // Экспортируем функции для модуля работы диалогового окна
 
   window.similarWizards = {
     // Показываем блок с персонажами
     showSimilarWizards: function () {
-      window.backend.load(createSimilarWizards, showErrorMessage);
       similarBlock.classList.remove('hidden');
     },
     // Удаляем персонажей при закрытии окна
@@ -53,7 +55,7 @@
 
     // Используем try для защиты от некорректных данных с сервера
     try {
-      var wizards = window.utils.selectData(wizardsData, WIZARDS_NUMBER);
+      var wizards = wizardsData;
 
       for (var i = 0; i < WIZARDS_NUMBER; i++) {
         newWizard = renderWizard(wizards[i]);
@@ -77,4 +79,12 @@
     // Выводим сообщение
     similarWizardsList.appendChild(errorNode);
   };
+
+  // Загружаем данные персонажей
+
+  var getWizardsData = function (data) {
+    loadedData = data;
+  };
+
+  window.backend.load(getWizardsData, showErrorMessage);
 })();
