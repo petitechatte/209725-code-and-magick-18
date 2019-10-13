@@ -47,6 +47,18 @@
     return rank;
   };
 
+  // Дополнительная функция сравнения для устойчивости сортировки
+
+  var compareNames = function (a, b) {
+    if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
   // Сортируем персонажей по убыванию рейтинга
 
   var sortWizards = function () {
@@ -55,7 +67,13 @@
       var copiedWizards = loadedData.slice();
 
       copiedWizards.sort(function (a, b) {
-        return getRank(b) - getRank(a);
+        // Проверяем рейтинг сходства
+        var rankDiff = getRank(b) - getRank(a);
+        if (rankDiff === 0) {
+          // При одинаковом рейтинге сортируем по именам
+          rankDiff = compareNames(a.name, b.name);
+        }
+        return rankDiff;
       });
     } catch (err) {
       showErrorMessage(err.message);
