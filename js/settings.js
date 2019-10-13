@@ -32,10 +32,14 @@
   // Добавляем обрабочики клика
 
   var makeChangeable = function (element, input, properties) {
+    // Меняем по клику цвет главного персонажа
     element.addEventListener('click', function () {
       changeColor(element, input, properties);
-      window.updateWizards();
     });
+    // Подбираем похожих персонажей с устранением "дребезга" при частых кликах
+    element.addEventListener('click', window.debounce(function () {
+      window.updateWizards();
+    }));
   };
 
   makeChangeable(heroCoat, window.settings.heroCoatInput, window.settings.COAT_COLORS);
