@@ -19,7 +19,7 @@
 
   // Меняем по клику цвет для выбранного элемента персонажа
 
-  var changeHeroColor = function (element, input, properties) {
+  var makeChangeable = function (element, input, properties) {
     element.addEventListener('click', function () {
       if (element.tagName === 'DIV') {
         element.style.background = window.utils.changeValue(input, properties);
@@ -29,7 +29,7 @@
     });
   };
 
-  changeHeroColor(heroCoat, heroCoatInput, window.settings.COAT_COLORS);
-  changeHeroColor(heroEyes, heroEyesInput, window.settings.EYES_COLORS);
-  changeHeroColor(fireball, fireballInput, window.settings.FIREBALL_COLORS);
+  makeChangeable(heroCoat, heroCoatInput, window.settings.COAT_COLORS);
+  makeChangeable(heroEyes, heroEyesInput, window.settings.EYES_COLORS);
+  makeChangeable(fireball, fireballInput, window.settings.FIREBALL_COLORS);
 })();
