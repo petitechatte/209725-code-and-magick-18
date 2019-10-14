@@ -68,8 +68,6 @@
   var closeSetupWindow = function () {
     // Скрываем окно
     window.utils.setupWindow.classList.add('hidden');
-    // Удаляем сгенерированных персонажей
-    window.similarWizards.removeSimilarWizards();
     // Убираем обработчик нажатия Esc
     document.removeEventListener('keydown', escKeydownHandler);
     // Возвращаем обработчики на кнопку открытия окна
@@ -94,8 +92,6 @@
   // Показываем окно настроек
 
   var openSetupWindow = function () {
-    // Генерируем новых случайных персонажей
-    window.similarWizards.showSimilarWizards();
     // Показываем окно
     window.utils.setupWindow.classList.remove('hidden');
     // Добавляем временный обработчик нажатия Esc

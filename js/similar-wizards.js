@@ -15,19 +15,89 @@
   var similarBlock = document.querySelector('.setup-similar');
   var similarWizardsList = window.utils.setupWindow.querySelector('.setup-similar-list');
 
-  // Экспортируем функции для модуля работы диалогового окна
+  // Создаем переменные для хранения данных
+  var loadedData = [];
+  var sortedWizards = [];
+  var mainWizardCurrentLook = {
+    coatColor: '',
+    eyesColor: ''
+  };
 
-  window.similarWizards = {
-    // Показываем блок с персонажами
-    showSimilarWizards: function () {
-      window.backend.load(createSimilarWizards, showErrorMessage);
-      similarBlock.classList.remove('hidden');
-    },
-    // Удаляем персонажей при закрытии окна
-    removeSimilarWizards: function () {
-      similarBlock.classList.add('hidden');
-      similarWizardsList.innerHTML = '';
+  // Получаем настройки цвета главного персонажа
+  var getMainWizardColors = function () {
+    mainWizardCurrentLook.coatColor = window.settings.heroCoatInput.value;
+    mainWizardCurrentLook.eyesColor = window.settings.heroEyesInput.value;
+  };
+
+  // Устанавливаем текущий рейтинг каждого загруженного персонажа
+
+  var getRank = function (wizard) {
+    var rank = 0;
+
+    // Назначаем баллы за основной критерий сходства - цвет плаща
+    if (wizard.colorCoat === mainWizardCurrentLook.coatColor) {
+      rank += 2;
     }
+
+    // Назначаем дополнительные баллы за вторичный критерий сходства - цвет глаз
+    if (wizard.colorEyes === mainWizardCurrentLook.eyesColor) {
+      rank += 1;
+    }
+
+    return rank;
+  };
+
+  // Дополнительная функция сравнения для устойчивости сортировки
+
+  var compareNames = function (a, b) {
+    if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
+  // Сортируем персонажей по убыванию рейтинга
+
+  var sortWizards = function () {
+    // Используем try для защиты от некорректных данных с сервера
+    try {
+      var copiedWizards = loadedData.slice();
+
+      copiedWizards.sort(function (a, b) {
+        // Проверяем рейтинг сходства
+        var rankDiff = getRank(b) - getRank(a);
+        if (rankDiff === 0) {
+          // При одинаковом рейтинге сортируем по именам
+          rankDiff = compareNames(a.name, b.name);
+        }
+        return rankDiff;
+      });
+    } catch (err) {
+      showErrorMessage(err.message);
+    }
+    return copiedWizards;
+  };
+
+  // Создаем персонажей
+  var createSimilarWizards = function (wizardsData) {
+    var fragment = document.createDocumentFragment();
+    var newWizard;
+
+    for (var i = 0; i < WIZARDS_NUMBER; i++) {
+      newWizard = renderWizard(wizardsData[i]);
+      fragment.appendChild(newWizard);
+    }
+
+    similarWizardsList.appendChild(fragment);
+  };
+
+  // Удаляем персонажей
+
+  var removeSimilarWizards = function () {
+    similarWizardsList.innerHTML = '';
   };
 
   // Создаем разметку для одного персонажа
@@ -45,28 +115,8 @@
     return wizard;
   };
 
-  // Добавляем персонажей на страницу
-
-  var createSimilarWizards = function (wizardsData) {
-    var fragment = document.createDocumentFragment();
-    var newWizard;
-
-    // Используем try для защиты от некорректных данных с сервера
-    try {
-      var wizards = window.utils.selectData(wizardsData, WIZARDS_NUMBER);
-
-      for (var i = 0; i < WIZARDS_NUMBER; i++) {
-        newWizard = renderWizard(wizards[i]);
-        fragment.appendChild(newWizard);
-      }
-    } catch (err) {
-      showErrorMessage(err.message);
-    }
-
-    similarWizardsList.appendChild(fragment);
-  };
-
   // Сообщаем об ошибке загрузки персонажей
+
   var showErrorMessage = function (errorMessage) {
     // Создаем базовое сообщение
     var errorNode = window.utils.createMessage(ERROR_MESSAGE_HEADING, errorMessage);
@@ -77,4 +127,26 @@
     // Выводим сообщение
     similarWizardsList.appendChild(errorNode);
   };
+
+  // Загружаем данные персонажей
+
+  var getWizards = function (data) {
+    // Сохраняем данные
+    loadedData = data;
+    // Создаем похожих персонажей
+    window.updateWizards();
+    // Показываем блок с персонажами
+    similarBlock.classList.remove('hidden');
+  };
+
+  // Обновляем список похожих персонажей
+
+  window.updateWizards = function () {
+    removeSimilarWizards();
+    getMainWizardColors();
+    sortedWizards = sortWizards();
+    createSimilarWizards(sortedWizards);
+  };
+
+  window.backend.load(getWizards, showErrorMessage);
 })();
