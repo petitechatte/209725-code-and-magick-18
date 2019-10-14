@@ -12,7 +12,7 @@
     return function () {
       // Получаем аргументы, переданные в функцию
       var parameters = arguments;
-      // Отключаем текущий таймер перед созданием нового таймера
+      // Обнуляем текущий таймер перед созданием нового таймера
       if (lastTimeout) {
         window.clearTimeout(lastTimeout);
       }
