@@ -246,4 +246,10 @@
     evt.preventDefault();
     window.backend.save(new FormData(setupForm), finishFormUpload, showUploadErrorMessage);
   });
+
+  // Экспортируем элементы окна
+  window.popup = {
+    setupAvatar: setupAvatar,
+    uploadInput: uploadInput
+  };
 })();
