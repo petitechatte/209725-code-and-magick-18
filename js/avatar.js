@@ -15,6 +15,7 @@
     var file = uploadInput.files[0];
     var fileName = file.name.toLowerCase();
 
+    // Проверяем формат загруженного файла
     var matches = IMAGE_FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
@@ -23,9 +24,13 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
+        // Подставляем новое изображение форму
         setupAvatar.src = reader.result;
+        // Экспортируем Data URL изображения для аватара на странице игры
+        window.userpic = reader.result;
       });
 
+      // Переводим файл в Data URL
       reader.readAsDataURL(file);
     }
   });
