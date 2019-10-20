@@ -214,7 +214,10 @@
   // Отправляем форму
 
   var finishFormUpload = function (response) {
+    // Закрываем окно настройки персонажа
     closeSetupWindow();
+    // Подставляем загруженное изображение в аватар
+    avatar.src = window.userpic;
     // В теории данные должны использоваться для изменения игрового персонажа
     return response;
   };
@@ -246,4 +249,10 @@
     evt.preventDefault();
     window.backend.save(new FormData(setupForm), finishFormUpload, showUploadErrorMessage);
   });
+
+  // Экспортируем элементы окна
+  window.popup = {
+    setupAvatar: setupAvatar,
+    uploadInput: uploadInput
+  };
 })();
